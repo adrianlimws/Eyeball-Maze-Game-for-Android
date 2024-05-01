@@ -67,60 +67,60 @@ public class GameGridAdapter extends BaseAdapter {
         int squareValue = game.getSquareAt(row, col);
 
 
-            switch (squareValue) {
-                case 1:
-                    shapeImageView .setImageResource(R.drawable.cross_blue);
-                    break;
-                case 2:
-                    shapeImageView .setImageResource(R.drawable.cross_green);
-                    break;
-                case 3:
-                    shapeImageView .setImageResource(R.drawable.cross_red);
-                    break;
-                case 4:
-                    shapeImageView.setImageResource(R.drawable.cross_yellow);
-                    break;
-                case 5:
-                    shapeImageView.setImageResource(R.drawable.diamond_blue);
-                    break;
-                case 6:
-                    shapeImageView.setImageResource(R.drawable.diamond_green);
-                    break;
-                case 7:
-                    shapeImageView.setImageResource(R.drawable.diamond_red);
-                    break;
-                case 8:
-                    shapeImageView.setImageResource(R.drawable.diamond_yellow);
-                    break;
-                case 9:
-                    shapeImageView.setImageResource(R.drawable.flower_blue);
-                    break;
-                case 10:
-                    shapeImageView.setImageResource(R.drawable.flower_green);
-                    break;
-                case 11:
-                    shapeImageView.setImageResource(R.drawable.flower_red);
-                    break;
-                case 12:
-                    shapeImageView.setImageResource(R.drawable.flower_yellow);
-                    break;
-                case 13:
-                    shapeImageView.setImageResource(R.drawable.star_blue);
-                    break;
-                case 14:
-                    shapeImageView.setImageResource(R.drawable.star_green);
-                    break;
-                case 15:
-                    shapeImageView.setImageResource(R.drawable.star_red);
-                    break;
-                case 16:
-                    shapeImageView.setImageResource(R.drawable.star_yellow);
-                    break;
-                case 0:
-                    shapeImageView.setImageResource(android.R.color.transparent);
-                default:
-                    shapeImageView.setImageResource(android.R.color.transparent);
-                    break;
+        switch (squareValue) {
+            case 1:
+                shapeImageView .setImageResource(R.drawable.cross_blue);
+                break;
+            case 2:
+                shapeImageView .setImageResource(R.drawable.cross_green);
+                break;
+            case 3:
+                shapeImageView .setImageResource(R.drawable.cross_red);
+                break;
+            case 4:
+                shapeImageView.setImageResource(R.drawable.cross_yellow);
+                break;
+            case 5:
+                shapeImageView.setImageResource(R.drawable.diamond_blue);
+                break;
+            case 6:
+                shapeImageView.setImageResource(R.drawable.diamond_green);
+                break;
+            case 7:
+                shapeImageView.setImageResource(R.drawable.diamond_red);
+                break;
+            case 8:
+                shapeImageView.setImageResource(R.drawable.diamond_yellow);
+                break;
+            case 9:
+                shapeImageView.setImageResource(R.drawable.flower_blue);
+                break;
+            case 10:
+                shapeImageView.setImageResource(R.drawable.flower_green);
+                break;
+            case 11:
+                shapeImageView.setImageResource(R.drawable.flower_red);
+                break;
+            case 12:
+                shapeImageView.setImageResource(R.drawable.flower_yellow);
+                break;
+            case 13:
+                shapeImageView.setImageResource(R.drawable.star_blue);
+                break;
+            case 14:
+                shapeImageView.setImageResource(R.drawable.star_green);
+                break;
+            case 15:
+                shapeImageView.setImageResource(R.drawable.star_red);
+                break;
+            case 16:
+                shapeImageView.setImageResource(R.drawable.star_yellow);
+                break;
+            case 0:
+                shapeImageView.setImageResource(android.R.color.transparent);
+            default:
+                shapeImageView.setImageResource(android.R.color.transparent);
+                break;
         }
         frameLayout.addView(shapeImageView);
 
