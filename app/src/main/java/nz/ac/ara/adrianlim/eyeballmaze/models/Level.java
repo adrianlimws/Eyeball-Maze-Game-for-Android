@@ -20,6 +20,8 @@ public class Level {
 
     private int completedGoalCount;
 
+    private String levelName;
+
     // Constructor 
     // initialize the level with the given height and width
 //    public Level(int height, int width) {
@@ -27,10 +29,15 @@ public class Level {
 //        this.width = width;
 //        this.squares = new Square[height][width];
 //    }
-    public Level(int[][] levelLayout) {
+    public Level(String levelName, int[][] levelLayout) {
         this.levelLayout = levelLayout;
         this.height = levelLayout.length;
         this.width = levelLayout[0].length;
+        this.levelName = levelName;
+    }
+
+    public String getLevelName() {
+        return levelName;
     }
     // Square-related methods
 

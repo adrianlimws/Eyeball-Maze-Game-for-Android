@@ -23,30 +23,30 @@ public class Game {
 //        currentLevel = new Level(height, width);
 //        levels.add(currentLevel);
 //    }
-    public void loadLevel(int[][] levelLayout) {
-        currentLevel = new Level(levelLayout);
+
+    // similar to addLevel but now using 2d array for the params
+    public void loadLevel(String levelName, int[][] levelLayout) {
+        currentLevel = new Level(levelName, levelLayout);
         levels.add(currentLevel);
     }
 
+    public String getCurrentLevelName() {
+        return currentLevel.getLevelName();
+    }
+
     // Get current level height
-//    public int getLevelHeight() {
-//        isCurrentLevel();
-//        return currentLevel.getHeight();
-//    }
-
-    // Get current level width
-//    public int getLevelWidth() {
-//        isCurrentLevel();
-//        return currentLevel.getWidth();
-//    }
-
     public int getLevelHeight() {
+        isCurrentLevel();
         return currentLevel.getHeight();
     }
 
+//     Get current level width
     public int getLevelWidth() {
+        isCurrentLevel();
         return currentLevel.getWidth();
     }
+
+
 
     // Returns total number of levels
     public int getLevelCount() {
