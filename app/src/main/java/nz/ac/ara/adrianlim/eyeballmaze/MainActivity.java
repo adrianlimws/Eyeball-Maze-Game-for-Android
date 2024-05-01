@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import nz.ac.ara.adrianlim.eyeballmaze.enums.Direction;
 import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         game = new Game();
         game.loadLevel("Level 1",levelLayout);
         game.addGoal(0, 2);
+        game.addEyeball(5, 1, Direction.UP);
 
         GameGridAdapter gameGridAdapter = new GameGridAdapter(this, game);
         GridView gridView = findViewById(R.id.grid_game_level);

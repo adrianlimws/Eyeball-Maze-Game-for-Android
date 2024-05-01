@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import nz.ac.ara.adrianlim.eyeballmaze.enums.Direction;
 import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
 
 public class GameGridAdapter extends BaseAdapter {
@@ -130,6 +131,32 @@ public class GameGridAdapter extends BaseAdapter {
             goalImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             goalImageView.setImageResource(R.drawable.goal);
             frameLayout.addView(goalImageView);
+        }
+
+        if (row == game.getEyeballRow() && col == game.getEyeballColumn()) {
+            ImageView eyeballImageView = new ImageView(context);
+            eyeballImageView.setLayoutParams(new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT));
+            eyeballImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            Direction eyeballDirection = game.getEyeballDirection();
+            switch (eyeballDirection) {
+                case UP:
+                    eyeballImageView.setImageResource(R.drawable.player_eyes_up);
+                    break;
+                case DOWN:
+                    eyeballImageView.setImageResource(R.drawable.player_eyes_down);
+                    break;
+                case LEFT:
+                    eyeballImageView.setImageResource(R.drawable.player_eyes_left);
+                    break;
+                case RIGHT:
+                    eyeballImageView.setImageResource(R.drawable.player_eyes_right);
+                    break;
+            }
+
+            frameLayout.addView(eyeballImageView);
         }
 
         return frameLayout;
