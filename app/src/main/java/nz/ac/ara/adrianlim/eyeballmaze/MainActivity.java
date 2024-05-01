@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         game = new Game();
         game.loadLevel("Level 1",levelLayout);
+        game.addGoal(0, 2);
 
         GameGridAdapter gameGridAdapter = new GameGridAdapter(this, game);
         GridView gridView = findViewById(R.id.grid_game_level);

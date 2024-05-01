@@ -72,14 +72,14 @@ public class Level {
         goals.add(new Position(row, column));
     }
 
-    // Get count of goals in the level
-    public int getGoalCount() {
-        return goals.size();
-    }
-
     // Check if there is a goal at the given row and column position
     public boolean hasGoalAt(int row, int column) {
         return goals.stream().anyMatch(goal -> goal.getRow() == row && goal.getColumn() == column);
+    }
+
+    // Get count of goals in the level
+    public int getGoalCount() {
+        return goals.size();
     }
 
     // Get the count of completed goals
