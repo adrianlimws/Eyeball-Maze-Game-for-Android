@@ -37,7 +37,7 @@ public class GameGridAdapter extends BaseAdapter {
         ImageView imageView;
         if (convertView == null) {
             imageView = new ImageView(context);
-            imageView.setLayoutParams(new GridView.LayoutParams(GridView.AUTO_FIT, GridView.AUTO_FIT));
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
             imageView = (ImageView) convertView;
@@ -96,6 +96,8 @@ public class GameGridAdapter extends BaseAdapter {
             case 16:
                 imageView.setImageResource(R.drawable.star_yellow);
                 break;
+            case 0:
+                imageView.setImageResource(android.R.color.transparent);
             default:
                 imageView.setImageResource(android.R.color.transparent);
                 break;
