@@ -116,10 +116,8 @@ public class GameGridAdapter extends BaseAdapter {
             case 16:
                 shapeImageView.setImageResource(R.drawable.star_yellow);
                 break;
-            case 0:
-                shapeImageView.setImageResource(android.R.color.transparent);
             default:
-                shapeImageView.setImageResource(android.R.color.transparent);
+                shapeImageView.setImageResource(R.drawable.block);
                 break;
         }
         frameLayout.addView(shapeImageView);
