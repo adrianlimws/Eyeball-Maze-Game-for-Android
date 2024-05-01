@@ -8,28 +8,30 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
+
 public class GameGridAdapter extends BaseAdapter {
 
     private Context context;
-    private int[][] levelLayout;
+    private Game game;
     private int cellWidth;
     private int cellHeight;
 
-    public GameGridAdapter(Context context, int[][] levelLayout) {
+    public GameGridAdapter(Context context, Game game) {
         this.context = context;
-        this.levelLayout = levelLayout;
+        this.game = game;
 
         // Calculate cell dimensions based on screen width and number of columns
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int screenWidth = displayMetrics.widthPixels;
-        int numColumns = levelLayout[0].length;
+        int numColumns = game.getLevelWidth();
         cellWidth = screenWidth / numColumns;
-        cellHeight = cellWidth; // Assuming square cells
+        cellHeight = cellWidth; // treated as square cells
     }
 
     @Override
     public int getCount() {
-        return levelLayout.length * levelLayout[0].length;
+        return game.getLevelHeight() * game.getLevelWidth();
     }
 
     @Override
@@ -53,11 +55,11 @@ public class GameGridAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        int row = position / levelLayout[0].length;
-        int col = position % levelLayout[0].length;
-        int shapeId = levelLayout[row][col];
+        int row = position / game.getLevelWidth();
+        int col = position % game.getLevelWidth();
+        int squareValue = game.getSquareAt(row, col);
 
-        switch (shapeId) {
+        switch (squareValue) {
             case 1:
                 imageView.setImageResource(R.drawable.cross_blue);
                 break;

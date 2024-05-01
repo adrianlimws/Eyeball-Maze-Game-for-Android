@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
 
-public class MainActivity extends AppCompatActivity {
+import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
 
+public class MainActivity extends AppCompatActivity {
+    private Game game;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +23,12 @@ public class MainActivity extends AppCompatActivity {
                 {0, 5, 0, 0}
         };
 
-        GameGridAdapter gameGridAdapter = new GameGridAdapter(this, levelLayout);
+        game = new Game();
+        game.loadLevel(levelLayout);
+
+        GameGridAdapter gameGridAdapter = new GameGridAdapter(this, game);
         GridView gridView = findViewById(R.id.grid_game_level);
         gridView.setAdapter(gameGridAdapter);
     }
+
 }

@@ -14,6 +14,7 @@ public class Level {
     private int width;
     // 2D array to store squares for each level
     private Square[][] squares;
+    private int[][] levelLayout;
     // Set positions of the goals in a level
     private Set<Position> goals = new HashSet<>();
 
@@ -21,13 +22,21 @@ public class Level {
 
     // Constructor 
     // initialize the level with the given height and width
-    public Level(int height, int width) {
-        this.height = height;
-        this.width = width;
-        this.squares = new Square[height][width];
+//    public Level(int height, int width) {
+//        this.height = height;
+//        this.width = width;
+//        this.squares = new Square[height][width];
+//    }
+    public Level(int[][] levelLayout) {
+        this.levelLayout = levelLayout;
+        this.height = levelLayout.length;
+        this.width = levelLayout[0].length;
     }
-
     // Square-related methods
+
+    public int getSquareAt(int row, int col) {
+        return levelLayout[row][col];
+    }
 
     // Add a square with the given row and column position
     public void addSquare(Square square, int row, int column) {
@@ -139,7 +148,7 @@ public class Level {
     	}
     	return Message.OK;
     }
-    
+
     // Get appropriate message for the given row and column position, checking for blank squares in the path
     public Message checkMessageForBlankOnPathTo(int row, int column, Eyeball eyeball) {
         if (!hasBlankFreePathTo(row, column, eyeball)) {
@@ -154,12 +163,13 @@ public class Level {
             return false;
         }
 
-        Square targetSquare = getSquare(row, column);
-        Color currentColor = eyeball.getCurrentColor(game);
-        Shape currentShape = eyeball.getCurrentShape(game);
-
-        // Check if the target square has the same color or shape as the eyeball's current color or shape
-        return targetSquare.getColor() == currentColor || targetSquare.getShape() == currentShape;
+//        Square targetSquare = getSquare(row, column);
+//        Color currentColor = eyeball.getCurrentColor(game);
+//        Shape currentShape = eyeball.getCurrentShape(game);
+//
+//        // Check if the target square has the same color or shape as the eyeball's current color or shape
+//        return targetSquare.getColor() == currentColor || targetSquare.getShape() == currentShape;
+        return false; // stop error temporary
     }
 
     // Get the appropriate message for the given row and column position, considering all conditions
@@ -181,7 +191,7 @@ public class Level {
 
     // Method to move the eyeball to the given row and column position
     public void moveTo(int row, int column, Eyeball eyeball) {
-        
+
     	// Replace current square with a BlankSquare
         squares[eyeball.getRow()][eyeball.getColumn()] = new BlankSquare();
 

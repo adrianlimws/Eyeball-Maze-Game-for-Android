@@ -19,20 +19,32 @@ public class Game {
     // Level methods
     
     // Create a level with specified height/width and add to levels list
-    public void addLevel(int height, int width) {
-        currentLevel = new Level(height, width);
+//    public void addLevel(int height, int width) {
+//        currentLevel = new Level(height, width);
+//        levels.add(currentLevel);
+//    }
+    public void loadLevel(int[][] levelLayout) {
+        currentLevel = new Level(levelLayout);
         levels.add(currentLevel);
     }
 
     // Get current level height
+//    public int getLevelHeight() {
+//        isCurrentLevel();
+//        return currentLevel.getHeight();
+//    }
+
+    // Get current level width
+//    public int getLevelWidth() {
+//        isCurrentLevel();
+//        return currentLevel.getWidth();
+//    }
+
     public int getLevelHeight() {
-        isCurrentLevel();
         return currentLevel.getHeight();
     }
 
-    // Get current level width
     public int getLevelWidth() {
-        isCurrentLevel();
         return currentLevel.getWidth();
     }
 
@@ -86,10 +98,14 @@ public class Game {
     }
     
     // Return square object at given position in the current level
-    public Square getSquareAt(int row, int column) {
-        isCurrentLevel();
-        checkSquarePosition(row, column);
-        return currentLevel.getSquare(row, column);
+//    public Square getSquareAt(int row, int column) {
+//        isCurrentLevel();
+//        checkSquarePosition(row, column);
+//        return currentLevel.getSquare(row, column);
+//    }
+
+    public int getSquareAt(int row, int col) {
+        return currentLevel.getSquareAt(row, col);
     }
 
     // Return color of square at the given position in the current level
