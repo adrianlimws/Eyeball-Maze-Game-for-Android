@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/maze_level"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,8 +25,7 @@
         android:id="@+id/text_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="604dp"
+        android:layout_marginTop="60dp"
         android:text="Win/Lost/Rules if incorrect move"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,18 +34,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
     <GridView
         android:id="@+id/grid_game_level"
-        android:layout_width="410dp"
-        android:layout_height="550dp"
+        android:layout_width="match_parent"
+        android:layout_height="620dp"
+        android:gravity="center"
+        android:horizontalSpacing="0dp"
         android:numColumns="4"
         android:stretchMode="columnWidth"
         android:verticalSpacing="0dp"
-        android:horizontalSpacing="0dp"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_dialog" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

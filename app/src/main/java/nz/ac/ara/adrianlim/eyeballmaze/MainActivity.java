@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
                 {1, 12, 8, 2},
                 {10, 15, 14, 8},
                 {11, 9, 15, 10},
-                {0, 7, 9, 5},
+                {13, 7, 9, 5},
                 {0, 5, 0, 0}
         };
 

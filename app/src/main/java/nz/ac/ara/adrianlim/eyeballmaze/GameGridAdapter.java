@@ -1,6 +1,7 @@
 package nz.ac.ara.adrianlim.eyeballmaze;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,10 +12,19 @@ public class GameGridAdapter extends BaseAdapter {
 
     private Context context;
     private int[][] levelLayout;
+    private int cellWidth;
+    private int cellHeight;
 
     public GameGridAdapter(Context context, int[][] levelLayout) {
         this.context = context;
         this.levelLayout = levelLayout;
+
+        // Calculate cell dimensions based on screen width and number of columns
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int screenWidth = displayMetrics.widthPixels;
+        int numColumns = levelLayout[0].length;
+        cellWidth = screenWidth / numColumns;
+        cellHeight = cellWidth; // Assuming square cells
     }
 
     @Override
@@ -37,8 +47,8 @@ public class GameGridAdapter extends BaseAdapter {
         ImageView imageView;
         if (convertView == null) {
             imageView = new ImageView(context);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setLayoutParams(new GridView.LayoutParams(cellWidth, cellHeight));
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         } else {
             imageView = (ImageView) convertView;
         }
