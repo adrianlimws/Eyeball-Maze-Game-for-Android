@@ -36,9 +36,17 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <GridView
-        android:layout_width="409dp"
-        android:layout_height="610dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="120dp" />
+        android:id="@+id/grid_level"
+        android:layout_width="400dp"
+        android:layout_height="500dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:numColumns="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_dialog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
