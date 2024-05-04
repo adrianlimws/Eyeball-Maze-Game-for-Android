@@ -65,7 +65,7 @@ public class GameGridAdapter extends BaseAdapter {
 
         int row = position / game.getLevelWidth();
         int col = position % game.getLevelWidth();
-        int squareValue = game.getSquareAt(row, col);
+        int squareValue = game.getSquareAtIndex(row, col);
 
 
         switch (squareValue) {

@@ -98,13 +98,13 @@ public class Game {
     }
     
     // Return square object at given position in the current level
-//    public Square getSquareAt(int row, int column) {
-//        isCurrentLevel();
-//        checkSquarePosition(row, column);
-//        return currentLevel.getSquare(row, column);
-//    }
+    public Square getSquareAt(int row, int column) {
+        isCurrentLevel();
+        checkSquarePosition(row, column);
+        return currentLevel.getSquare(row, column);
+    }
 
-    public int getSquareAt(int row, int col) {
+    public int getSquareAtIndex(int row, int col) {
         return currentLevel.getSquareAt(row, col);
     }
 

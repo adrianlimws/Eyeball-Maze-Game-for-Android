@@ -44,21 +44,17 @@ public class Eyeball {
     }
 
     // Get colour of the square where eyeball is present
-//    public Color getCurrentColor(Game game) {
-//        return getCurrentSquare(game).getColor();
-//    }
+    public Color getCurrentColor(Game game) {
+        return getCurrentSquare(game).getColor();
+    }
 
     // Get the shape of the square where eyeball is present
-//    public Shape getCurrentShape(Game game) {
-//        return getCurrentSquare(game).getShape();
-//    }
+    public Shape getCurrentShape(Game game) {
+        return getCurrentSquare(game).getShape();
+    }
 
     // Get the square object where eyeball is present
-//    public Square getCurrentSquare(Game game) {
-//        return game.getSquareAt(row, column);
-//    }
-
-    public int getCurrentSquare(Game game) {
+    public Square getCurrentSquare(Game game) {
         return game.getSquareAt(row, column);
     }
 

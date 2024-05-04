@@ -170,13 +170,13 @@ public class Level {
             return false;
         }
 
-//        Square targetSquare = getSquare(row, column);
-//        Color currentColor = eyeball.getCurrentColor(game);
-//        Shape currentShape = eyeball.getCurrentShape(game);
+        Square targetSquare = getSquare(row, column);
+        Color currentColor = eyeball.getCurrentColor(game);
+        Shape currentShape = eyeball.getCurrentShape(game);
 //
 //        // Check if the target square has the same color or shape as the eyeball's current color or shape
-//        return targetSquare.getColor() == currentColor || targetSquare.getShape() == currentShape;
-        return false; // stop error temporary
+        return targetSquare.getColor() == currentColor || targetSquare.getShape() == currentShape;
+
     }
 
     // Get the appropriate message for the given row and column position, considering all conditions
