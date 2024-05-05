@@ -46,8 +46,8 @@ public class Level {
         }
     }
 
+    // Create and return the appropriate Square object based on the value
     private Square createSquareFromValue(int value) {
-        // Create and return the appropriate Square object based on the value
         switch (value) {
             case 1:
                 return new PlayableSquare(Color.BLUE, Shape.CROSS);

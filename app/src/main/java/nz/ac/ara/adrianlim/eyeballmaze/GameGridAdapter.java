@@ -55,6 +55,7 @@ public class GameGridAdapter extends BaseAdapter {
             frameLayout.setLayoutParams(new GridView.LayoutParams(cellWidth, cellHeight));
         } else {
             frameLayout = (FrameLayout) convertView;
+            frameLayout.removeAllViews();
         }
 
         ImageView shapeImageView = new ImageView(context);
