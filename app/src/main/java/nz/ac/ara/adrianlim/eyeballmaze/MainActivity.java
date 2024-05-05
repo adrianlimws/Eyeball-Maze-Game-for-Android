@@ -50,21 +50,18 @@ public class MainActivity extends AppCompatActivity {
                 int tappedRow = position / game.getLevelWidth();
                 int tappedCol = position % game.getLevelWidth();
 
-                // Check if the move is valid using your game logic
                 if (game.canMoveTo(tappedRow, tappedCol)) {
-                    // Update the game state
                     game.moveTo(tappedRow, tappedCol);
 
-                    // Refresh the game grid
+                    // notifyDataSetChanged ()
+                    // Notifies the attached observers that the underlying data has been changed and any View reflecting the data set should refresh itself.
+                    // Refresh the grid
                     gameGridAdapter.notifyDataSetChanged();
 
-                    // Check if the game is won
                     if (game.getCompletedGoalCount() == game.getGoalCount()) {
-                        // Display a congratulatory message or handle game completion
                         showGameWonMessage();
                     }
                 } else {
-                    // Display a toast message for the invalid move
                     Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
                     Toast.makeText(MainActivity.this, message.toString(), Toast.LENGTH_SHORT).show();
                 }
