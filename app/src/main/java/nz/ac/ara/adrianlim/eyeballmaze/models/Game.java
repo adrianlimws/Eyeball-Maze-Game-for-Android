@@ -18,14 +18,14 @@ public class Game {
 
     // Level methods
     
-    // Create a level with specified height/width and add to levels list
+//    // Create a level with specified height/width and add to levels list
 //    public void addLevel(int height, int width) {
 //        currentLevel = new Level(height, width);
 //        levels.add(currentLevel);
 //    }
 
     // similar to addLevel but now using 2d array for the params
-    public void loadLevel(String levelName, int[][] levelLayout) {
+    public void addLevel(String levelName, int[][] levelLayout) {
         currentLevel = new Level(levelName, levelLayout);
         levels.add(currentLevel);
     }
@@ -104,8 +104,10 @@ public class Game {
         return currentLevel.getSquare(row, column);
     }
 
-    public int getSquareAtIndex(int row, int col) {
-        return currentLevel.getSquareAt(row, col);
+    public int getSquareAtIndex(int row, int column) {
+        isCurrentLevel();
+        checkSquarePosition(row, column);
+        return currentLevel.getSquareAt(row, column);
     }
 
     // Return color of square at the given position in the current level

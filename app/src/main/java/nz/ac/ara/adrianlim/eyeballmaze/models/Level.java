@@ -34,6 +34,56 @@ public class Level {
         this.height = levelLayout.length;
         this.width = levelLayout[0].length;
         this.levelName = levelName;
+
+        // Initialise the squares array
+        this.squares = new Square[height][width];
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                int squareValue = levelLayout[row][col];
+                Square square = createSquareFromValue(squareValue);
+                squares[row][col] = square;
+            }
+        }
+    }
+
+    private Square createSquareFromValue(int value) {
+        // Create and return the appropriate Square object based on the value
+        switch (value) {
+            case 1:
+                return new PlayableSquare(Color.BLUE, Shape.CROSS);
+            case 2:
+                return new PlayableSquare(Color.GREEN, Shape.CROSS);
+            case 3:
+                return new PlayableSquare(Color.RED, Shape.CROSS);
+            case 4:
+                return new PlayableSquare(Color.YELLOW, Shape.CROSS);
+            case 5:
+                return new PlayableSquare(Color.BLUE, Shape.DIAMOND);
+            case 6:
+                return new PlayableSquare(Color.GREEN, Shape.DIAMOND);
+            case 7:
+                return new PlayableSquare(Color.RED, Shape.DIAMOND);
+            case 8:
+                return new PlayableSquare(Color.YELLOW, Shape.DIAMOND);
+            case 9:
+                return new PlayableSquare(Color.BLUE, Shape.FLOWER);
+            case 10:
+                return new PlayableSquare(Color.GREEN, Shape.FLOWER);
+            case 11:
+                return new PlayableSquare(Color.RED, Shape.FLOWER);
+            case 12:
+                return new PlayableSquare(Color.YELLOW, Shape.FLOWER);
+            case 13:
+                return new PlayableSquare(Color.BLUE, Shape.STAR);
+            case 14:
+                return new PlayableSquare(Color.GREEN, Shape.STAR);
+            case 15:
+                return new PlayableSquare(Color.RED, Shape.STAR);
+            case 16:
+                return new PlayableSquare(Color.YELLOW, Shape.STAR);
+            default:
+                return new BlankSquare();
+        }
     }
 
     public String getLevelName() {
