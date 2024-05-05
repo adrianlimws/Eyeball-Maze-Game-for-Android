@@ -1,8 +1,11 @@
 package nz.ac.ara.adrianlim.eyeballmaze;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -16,11 +19,15 @@ import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
 public class MainActivity extends AppCompatActivity {
     private Game game;
     private TextView levelNameTextView;
+    private TextView dialogTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dialogTextView = findViewById(R.id.text_dialog);
+        dialogTextView.setText("Select a tile to make a move");
 
         levelNameTextView = findViewById(R.id.text_maze_level);
 
@@ -58,12 +65,16 @@ public class MainActivity extends AppCompatActivity {
                     // Refresh the grid
                     gameGridAdapter.notifyDataSetChanged();
 
-                    if (game.getCompletedGoalCount() == game.getGoalCount()) {
-                        showGameWonMessage();
+                    Log.d("EyeballMaze", "Game Goal count: " + game.getGoalCount());
+
+                    Log.d("EyeballMaze", "Completed Goal Count: " + game.getCompletedGoalCount());
+
+                    if (game.getGoalCount() == 0) {
+                        dialogTextView.setText("You Win");
                     }
                 } else {
                     Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
-                    Toast.makeText(MainActivity.this, message.toString(), Toast.LENGTH_SHORT).show();
+                    showInvalidMoveMessage(message);
                 }
             }
         });
@@ -74,9 +85,23 @@ public class MainActivity extends AppCompatActivity {
         levelNameTextView.setText(levelName);
     }
 
-    private void showGameWonMessage() {
-        // Display a congratulatory message or handle game completion
-        // ...
+    private void showInvalidMoveMessage(Message message) {
+        String messageText = "";
+        switch (message) {
+            case MOVING_DIAGONALLY:
+                messageText = "Cannot move diagonally";
+                break;
+            case BACKWARDS_MOVE:
+                messageText = "Cannot move backwards";
+                break;
+            case MOVING_OVER_BLANK:
+                messageText = "Cannot move over blank squares";
+                break;
+            case DIFFERENT_SHAPE_OR_COLOR:
+                messageText = "Can only move to a square with the same color or shape";
+                break;
+        }
+        dialogTextView.setText(messageText);
     }
 
 }
