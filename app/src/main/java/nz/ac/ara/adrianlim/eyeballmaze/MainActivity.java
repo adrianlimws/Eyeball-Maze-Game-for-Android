@@ -14,9 +14,11 @@ import android.widget.TextView;
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Direction;
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Message;
 import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
+import nz.ac.ara.adrianlim.eyeballmaze.models.Level;
 
 public class MainActivity extends AppCompatActivity {
     private Game game;
+    private Level level;
     private TextView levelNameTextView;
     private TextView dialogTextView;
 
@@ -71,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
                     if (game.getGoalCount() == 0) {
                         showGameOverDialog(true);
                     }
+//                    else {
+//                        checkLegalMoves();
+//                    }
                 } else {
                     Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
                     showInvalidMoveMessage(message);
@@ -78,6 +83,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Game related checks
+//    private void checkLegalMoves() {
+//        boolean hasValidMove = false;
+//        int currentRow = game.getEyeballRow();
+//        int currentColumn = game.getEyeballColumn();
+//
+//        // Check all cells in the grid
+//        for (int row = 0; row < game.getLevelHeight(); row++) {
+//            for (int column = 0; column < game.getLevelWidth(); column++) {
+////                // Skip current position of eyeball
+////                if (row == currentRow && column == currentColumn) {
+////                    continue;
+////                }
+//
+//                // Check if the move is valid according to the game rules
+//                if (game.getCurrentLevel().isDirectionOK(row, column, game.getEyeball()) &&
+//                        game.getCurrentLevel().hasBlankFreePathTo(row, column, game.getEyeball()) &&
+//                        game.getCurrentLevel().canMoveTo(row, column, game.getEyeball(), game)) {
+//                    hasValidMove = true;
+//                    break;
+//                }
+//            }
+//            if (hasValidMove) {
+//                break;
+//            }
+//        }
+//
+//        if (!hasValidMove) {
+//            showGameOverDialog(false);
+//        }
+//    }
 
     private void updateLevelName() {
         String levelName = game.getCurrentLevelName();
@@ -93,14 +130,19 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // Handle OK button click event
+                        // ok
+                    }
+                })
+                .setNegativeButton("Restart", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // restart game
                     }
                 });
 
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
     private void showInvalidMoveMessage(Message message) {
         String messageText = "";
         switch (message) {

@@ -17,7 +17,6 @@ public class Game {
     private Eyeball eyeball;
 
     // Level methods
-    
 //    // Create a level with specified height/width and add to levels list
 //    public void addLevel(int height, int width) {
 //        currentLevel = new Level(height, width);
