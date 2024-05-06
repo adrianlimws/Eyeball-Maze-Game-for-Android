@@ -1,7 +1,9 @@
 package nz.ac.ara.adrianlim.eyeballmaze;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("EyeballMaze", "Completed Goal Count: " + game.getCompletedGoalCount());
 
                     if (game.getGoalCount() == 0) {
-                        dialogTextView.setText("You Win");
+                        showGameOverDialog(true);
                     }
                 } else {
                     Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
@@ -80,6 +82,23 @@ public class MainActivity extends AppCompatActivity {
     private void updateLevelName() {
         String levelName = game.getCurrentLevelName();
         levelNameTextView.setText(levelName);
+    }
+
+    private void showGameOverDialog(boolean isWin) {
+        String title = isWin ? "Congratulations!" : "Game Over";
+        String message = isWin ? "You have completed the level!" : "You lost as there are no legal moves to make.";
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Handle OK button click event
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void showInvalidMoveMessage(Message message) {
