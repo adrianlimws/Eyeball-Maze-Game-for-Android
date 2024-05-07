@@ -23,7 +23,7 @@ public class Game {
 //        levels.add(currentLevel);
 //    }
 
-    // similar to addLevel but now using 2d array for the params
+    // Created in portoflio version, similar to addLevel but now using String level name & int 2d array for the params
     public void addLevel(String levelName, int[][] levelLayout) {
         currentLevel = new Level(levelName, levelLayout);
         levels.add(currentLevel);
@@ -237,6 +237,8 @@ public class Game {
         }
     }
 
+    // Created in portoflio version
+    // checks for legal moves using the canMoveTo method from Ass2
     public boolean hasLegalMoves() {
         int currentRow = eyeball.getRow();
         int currentColumn = eyeball.getColumn();
@@ -257,4 +259,6 @@ public class Game {
 
         return false;
     }
+
+
 }

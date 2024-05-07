@@ -19,6 +19,7 @@ public class GameGridAdapter extends BaseAdapter {
     private int cellWidth;
     private int cellHeight;
 
+    // Constructor takes context and game instance
     public GameGridAdapter(Context context, Game game) {
         this.context = context;
         this.game = game;
@@ -31,6 +32,7 @@ public class GameGridAdapter extends BaseAdapter {
         cellHeight = cellWidth; // treated as square cells
     }
 
+    // Returns total number of cells in the grid
     @Override
     public int getCount() {
         return game.getLevelHeight() * game.getLevelWidth();
@@ -41,33 +43,39 @@ public class GameGridAdapter extends BaseAdapter {
         return null;
     }
 
+    // Returns the position as item ID
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    // Creates and return the view of individual cell in the grid
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         FrameLayout frameLayout;
         if (convertView == null) {
+            // If convertView is null, create a new FrameLayout and set layout parameters
             frameLayout = new FrameLayout(context);
             frameLayout.setLayoutParams(new GridView.LayoutParams(cellWidth, cellHeight));
         } else {
+            // If convertView is not null, reuse and remove existing views
             frameLayout = (FrameLayout) convertView;
             frameLayout.removeAllViews();
         }
 
+        // Create an ImageView for the shape
         ImageView shapeImageView = new ImageView(context);
         shapeImageView.setLayoutParams(new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
         shapeImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
+        // Calculate the row and column indices based on the position
         int row = position / game.getLevelWidth();
         int col = position % game.getLevelWidth();
         int squareValue = game.getSquareAtIndex(row, col);
 
-
+        // Set the appropriate image resource for the shape based on each square value
         switch (squareValue) {
             case 1:
                 shapeImageView .setImageResource(R.drawable.cross_blue);
@@ -123,6 +131,7 @@ public class GameGridAdapter extends BaseAdapter {
         }
         frameLayout.addView(shapeImageView);
 
+        // If cell has goal, add a goal ImageView to the FrameLayout
         if (game.hasGoalAt(row, col)) {
             ImageView goalImageView = new ImageView(context);
             goalImageView.setLayoutParams(new FrameLayout.LayoutParams(
@@ -133,6 +142,7 @@ public class GameGridAdapter extends BaseAdapter {
             frameLayout.addView(goalImageView);
         }
 
+        // If the cell has eyeball, add an eyeball ImageView to the FrameLayout
         if (row == game.getEyeballRow() && col == game.getEyeballColumn()) {
             ImageView eyeballImageView = new ImageView(context);
             eyeballImageView.setLayoutParams(new FrameLayout.LayoutParams(
@@ -140,6 +150,7 @@ public class GameGridAdapter extends BaseAdapter {
                     FrameLayout.LayoutParams.MATCH_PARENT));
             eyeballImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
+            // Set eyeball image based on the direction
             Direction eyeballDirection = game.getEyeballDirection();
             switch (eyeballDirection) {
                 case UP:

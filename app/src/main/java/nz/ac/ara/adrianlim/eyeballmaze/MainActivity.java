@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton("Restart", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // restart game
+                        // restart level
                     }
                 });
 
@@ -137,5 +137,7 @@ public class MainActivity extends AppCompatActivity {
         }
         dialogTextView.setText(messageText);
     }
+
+
 
 }
