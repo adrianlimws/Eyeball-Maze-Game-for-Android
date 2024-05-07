@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         levelNameTextView = findViewById(R.id.text_maze_level);
 
+        // Define the layout of the game level using the numeric value found in GameGridAdapter.java (line 71)
         int[][] levelLayout = {
                 {0, 0, 11, 0},
                 {1, 12, 8, 2},
@@ -41,24 +42,31 @@ public class MainActivity extends AppCompatActivity {
                 {0, 5, 0, 0}
         };
 
-        game = new Game();
-        game.addLevel("Level 1",levelLayout);
-        game.addGoal(0, 2);
-        game.addEyeball(5, 1, Direction.UP);
+        game = new Game(); // create new Game obj
+        game.addLevel("Level 1",levelLayout); // add specific levelName, levelLayout
+        game.addGoal(0, 2); // add position of the goal
+        game.addEyeball(5, 1, Direction.UP); // add position of the eyeball and its facing direction
 
+        // create a GameGridAdapter to populate the GridView with the game data
         GameGridAdapter gameGridAdapter = new GameGridAdapter(this, game);
+        // Locate the GridView in layout/activity_main.xml
         GridView gridView = findViewById(R.id.grid_game_level);
+        // set GameGridAdapter as the GridView adapter
         gridView.setAdapter(gameGridAdapter);
 
         updateLevelName();
 
+        // Set onclick listener for GridView
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Calculate the row and column based on the tapped position by player
                 int tappedRow = position / game.getLevelWidth();
                 int tappedCol = position % game.getLevelWidth();
 
+                // Check if the tapped position is a valid move
                 if (game.canMoveTo(tappedRow, tappedCol)) {
+                    // Move to the tapped position
                     game.moveTo(tappedRow, tappedCol);
 
                     // notifyDataSetChanged ()
@@ -67,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
                     gameGridAdapter.notifyDataSetChanged();
 
                     Log.d("EyeballMaze", "Game Goal count: " + game.getGoalCount());
-
                     Log.d("EyeballMaze", "Completed Goal Count: " + game.getCompletedGoalCount());
 
+                    // if all goals are completed
                     if (game.getGoalCount() == 0) {
                         showGameOverDialog(true);
                     }
@@ -84,37 +92,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Game related checks
-//    private void checkLegalMoves() {
-//        boolean hasValidMove = false;
-//        int currentRow = game.getEyeballRow();
-//        int currentColumn = game.getEyeballColumn();
-//
-//        // Check all cells in the grid
-//        for (int row = 0; row < game.getLevelHeight(); row++) {
-//            for (int column = 0; column < game.getLevelWidth(); column++) {
-////                // Skip current position of eyeball
-////                if (row == currentRow && column == currentColumn) {
-////                    continue;
-////                }
-//
-//                // Check if the move is valid according to the game rules
-//                if (game.getCurrentLevel().isDirectionOK(row, column, game.getEyeball()) &&
-//                        game.getCurrentLevel().hasBlankFreePathTo(row, column, game.getEyeball()) &&
-//                        game.getCurrentLevel().canMoveTo(row, column, game.getEyeball(), game)) {
-//                    hasValidMove = true;
-//                    break;
-//                }
-//            }
-//            if (hasValidMove) {
-//                break;
-//            }
-//        }
-//
-//        if (!hasValidMove) {
-//            showGameOverDialog(false);
-//        }
-//    }
 
     private void updateLevelName() {
         String levelName = game.getCurrentLevelName();
