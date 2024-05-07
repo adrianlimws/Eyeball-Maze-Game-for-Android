@@ -237,6 +237,7 @@ public class Game {
         }
     }
 
+
     // Created in portoflio version
     // checks for legal moves using the canMoveTo method from Ass2
     public boolean hasLegalMoves() {
