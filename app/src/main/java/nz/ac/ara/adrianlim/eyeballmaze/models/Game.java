@@ -236,4 +236,25 @@ public class Game {
             throw new IllegalStateException("No levels added");
         }
     }
+
+    public boolean hasLegalMoves() {
+        int currentRow = eyeball.getRow();
+        int currentColumn = eyeball.getColumn();
+
+        // Check all squares in level range
+        for (int row = 0; row < getLevelHeight(); row++) {
+            for (int col = 0; col < getLevelWidth(); col++) {
+                // Skip checking the eyeball's current position as a potential legal move
+                if (row == currentRow && col == currentColumn) {
+                    continue;
+                }
+                // Check if move is legal
+                if (canMoveTo(row, col)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

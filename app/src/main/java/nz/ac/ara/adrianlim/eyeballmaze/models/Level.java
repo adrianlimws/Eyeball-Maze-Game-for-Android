@@ -226,10 +226,6 @@ public class Level {
         Color currentColor = eyeball.getCurrentColor(game);
         Shape currentShape = eyeball.getCurrentShape(game);
 
-//        if (targetSquare instanceof BlankSquare) {
-//            return false;
-//        }
-
         // Check if the target square has the same color or shape as the eyeball's current color or shape
         return targetSquare.getColor() == currentColor || targetSquare.getShape() == currentShape;
 

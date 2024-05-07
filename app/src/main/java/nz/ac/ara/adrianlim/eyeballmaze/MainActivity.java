@@ -80,10 +80,9 @@ public class MainActivity extends AppCompatActivity {
                     // if all goals are completed
                     if (game.getGoalCount() == 0) {
                         showGameOverDialog(true);
+                    } else if (!game.hasLegalMoves()) {
+                        showGameOverDialog(false);
                     }
-//                    else {
-//                        checkLegalMoves();
-//                    }
                 } else {
                     Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
                     showInvalidMoveMessage(message);
