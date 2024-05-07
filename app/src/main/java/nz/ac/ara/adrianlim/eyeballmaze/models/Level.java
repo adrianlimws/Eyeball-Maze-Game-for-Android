@@ -31,6 +31,8 @@ public class Level {
 //        this.width = width;
 //        this.squares = new Square[height][width];
 //    }
+
+    // Created in portoflio version, extending the original Ass2 constructor
     public Level(String levelName, int[][] levelLayout) {
         this.levelLayout = levelLayout;
         this.height = levelLayout.length;
@@ -48,7 +50,7 @@ public class Level {
         }
     }
 
-    // Create and return the appropriate Square object based on the value
+    // Create and return the appropriate Square object based on value (this matches GameGridAdapter.java Line 71 switch case)
     private Square createSquareFromValue(int value) {
         switch (value) {
             case 1:
