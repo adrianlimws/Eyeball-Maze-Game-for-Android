@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <TextView
         android:id="@+id/text_maze_level"
         android:layout_width="wrap_content"
@@ -14,38 +15,73 @@
         android:layout_marginTop="8dp"
         android:text="@string/maze_level"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.005" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/cardview_dark_background"
+        android:padding="5dp"
         android:text="Select a tile to make a move"
+        android:textColor="@color/design_default_color_on_primary"
+        android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.066" />
+        app:layout_constraintVertical_bias="0.061" />
+
+    <TextView
+        android:id="@+id/text_moveCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:text="Moves: 0"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.114"
+        app:layout_constraintStart_toEndOf="@+id/text_maze_level"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_goalCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="108dp"
+        android:text="Goal: 0/1"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_moveCount"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <GridView
         android:id="@+id/grid_game_level"
         android:layout_width="match_parent"
-        android:layout_height="620dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="610dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
-        android:horizontalSpacing="0dp"
         android:numColumns="4"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp"
+        android:stretchMode="spacingWidthUniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_dialog" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="87dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:text="Menu"
+        app:layout_constraintStart_toEndOf="@+id/text_goalCount"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

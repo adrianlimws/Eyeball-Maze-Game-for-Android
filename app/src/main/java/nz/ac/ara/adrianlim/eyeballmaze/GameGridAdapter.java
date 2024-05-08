@@ -68,7 +68,7 @@ public class GameGridAdapter extends BaseAdapter {
         shapeImageView.setLayoutParams(new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
-        shapeImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        shapeImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
         // Calculate the row and column indices based on the position
         int row = position / game.getLevelWidth();
@@ -137,7 +137,7 @@ public class GameGridAdapter extends BaseAdapter {
             goalImageView.setLayoutParams(new FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     FrameLayout.LayoutParams.MATCH_PARENT));
-            goalImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            goalImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             goalImageView.setImageResource(R.drawable.goal);
             frameLayout.addView(goalImageView);
         }
@@ -148,7 +148,7 @@ public class GameGridAdapter extends BaseAdapter {
             eyeballImageView.setLayoutParams(new FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     FrameLayout.LayoutParams.MATCH_PARENT));
-            eyeballImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            eyeballImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
             // Set eyeball image based on the direction
             Direction eyeballDirection = game.getEyeballDirection();

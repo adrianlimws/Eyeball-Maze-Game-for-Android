@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView levelNameTextView;
     private TextView dialogTextView;
 
+    private int moveCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         dialogTextView.setText("Select a tile to make a move");
 
         levelNameTextView = findViewById(R.id.text_maze_level);
+        TextView moveCountTextView = findViewById(R.id.text_moveCount);
 
         // Define the layout of the game level using the numeric value found in GameGridAdapter.java (line 71)
         int[][] levelLayout = {
@@ -68,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
                 if (game.canMoveTo(tappedRow, tappedCol)) {
                     // Move to the tapped position
                     game.moveTo(tappedRow, tappedCol);
+
+                    // Increment the move count per legal move
+                    moveCount++;
+                    moveCountTextView.setText("Moves: " + moveCount);
 
                     // notifyDataSetChanged ()
                     // Notifies the attached observers that the underlying data has been changed and any View reflecting the data set should refresh itself.
