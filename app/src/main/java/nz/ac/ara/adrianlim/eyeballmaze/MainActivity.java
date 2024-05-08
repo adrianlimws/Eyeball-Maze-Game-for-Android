@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -30,10 +31,19 @@ public class MainActivity extends AppCompatActivity {
     private TextView goalCountTextView;
     private int moveCount = 0;
     private int initialGoalCount;
+
+    private MediaPlayer legalMoveSound;
+    private MediaPlayer illegalMoveSound;
+    private MediaPlayer goalReachedSound;
+    private MediaPlayer gameOverSound;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize sound effects
+        legalMoveSound = MediaPlayer.create(this, R.raw.legal_move_sound);
+        illegalMoveSound = MediaPlayer.create(this, R.raw.illegal_move_sound);
 
         // level data display
         levelNameTextView = findViewById(R.id.text_maze_level);
@@ -89,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
                 if (game.canMoveTo(tappedRow, tappedCol)) {
                     // Move to the tapped position
                     game.moveTo(tappedRow, tappedCol);
+                    // play move sound
+                    legalMoveSound.start();
 
                     // Increment the move count per legal move
                     moveCount++;
@@ -114,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
                     // Update the goal count TextView
                     goalCountTextView.setText("Goal: " + game.getCompletedGoalCount() + "/" + initialGoalCount);
                 } else {
+                    // Play the illegal move sound
+                    illegalMoveSound.start();
+
                     Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
                     showInvalidMoveMessage(message);
                 }
@@ -144,6 +159,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Release sound resources
+        legalMoveSound.release();
+        illegalMoveSound.release();
+//        goalReachedSound.release();
+//        gameOverSound.release();
+    }
 
     private void updateLevelName() {
         String levelName = game.getCurrentLevelName();
