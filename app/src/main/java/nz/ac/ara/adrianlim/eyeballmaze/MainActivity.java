@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer goalReachedSound;
     private MediaPlayer gameOverSound;
     private boolean isSoundOn = true;
+    private boolean isUndoUsed = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,11 +164,27 @@ public class MainActivity extends AppCompatActivity {
                         item.setIcon(R.drawable.icon_sound_on);
                     } else {
                         item.setIcon(R.drawable.icon_sound_off);
-                    }
-                    return true;
+                    } return true;
                 } else if (itemId == R.id.action_undo) {
-                    // Handle undo action
-                    return true;
+                    if (!isUndoUsed) {
+                        game.undoLastMove();
+                        gameGridAdapter.notifyDataSetChanged();
+                        isUndoUsed = true;
+                        moveCount--;
+                        moveCountTextView.setText("Moves: " + moveCount);
+                        return true;
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("Undo Used")
+                                .setMessage("Undo has already been used. You cannot use it again.")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
                 } else if (itemId == R.id.action_pause) {
                     // Handle pause game action
                     return true;
@@ -215,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
                                 })
                                 .setNegativeButton("Restart Level", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface confirmDialog, int confirmId) {
+                                        isUndoUsed = false;
                                         recreate();
                                     }
                                 })
@@ -225,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // restart level
+                        isUndoUsed = false;
                         recreate();
                     }
                 });

@@ -16,7 +16,12 @@ public class Game {
     // Refer to eyeball object 
     private Eyeball eyeball;
 
+    // created in portfolio.
+    private int previousEyeballRow;
+    private int previousEyeballColumn;
+
     // Level methods
+
 //    // Create a level with specified height/width and add to levels list
 //    public void addLevel(int height, int width) {
 //        currentLevel = new Level(height, width);
@@ -181,9 +186,14 @@ public class Game {
 
     // Move eyeball to the given position if the move is valid 
     public void moveTo(int row, int column) {
+
         isCurrentLevel();
         checkSquarePosition(row, column);
         if (currentLevel.canMoveTo(row, column, eyeball, this)) {
+            // Store previous eyeball position before moving
+            previousEyeballRow = eyeball.getRow();
+            previousEyeballColumn = eyeball.getColumn();
+
             currentLevel.moveTo(row, column, eyeball);
             eyeball.setPosition(row, column);
         } else {
@@ -259,5 +269,18 @@ public class Game {
         return false;
     }
 
+    public void undoLastMove() {
+        if (previousEyeballRow != -1 && previousEyeballColumn != -1) {
+            // Revert the eyeball's position to the previous position
+            eyeball.setPosition(previousEyeballRow, previousEyeballColumn);
+
+            // Revert the level's state to the previous state
+            currentLevel.revertMove(previousEyeballRow, previousEyeballColumn, eyeball);
+
+            // Reset the previous eyeball position
+            previousEyeballRow = -1;
+            previousEyeballColumn = -1;
+        }
+    }
 
 }

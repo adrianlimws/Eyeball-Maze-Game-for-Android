@@ -297,5 +297,19 @@ public class Level {
 
 
     // Created in portoflio version
+    public void revertMove(int row, int column, Eyeball eyeball) {
+        // Revert game logic that was affected by the move
+        // if a goal was reached during the move, undo the goal count
+        if (hasGoalAt(row, column)) {
+            goals.add(new Position(row, column));
+            completedGoalCount--;
+        }
 
+        // Restore square at the eyeball's current position
+        Square currentSquare = createSquareFromValue(levelLayout[eyeball.getRow()][eyeball.getColumn()]);
+        squares[eyeball.getRow()][eyeball.getColumn()] = currentSquare;
+
+        // Reset the eyeball's previous position
+        eyeball.setPosition(row, column);
+    }
 }
