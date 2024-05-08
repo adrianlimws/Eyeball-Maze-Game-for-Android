@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 {10, 15, 14, 8},
                 {11, 9, 15, 10},
                 {13, 7, 9, 5},
-                {0, 5, 0, 0}
+                {0, 5, 0, 6}
         };
 
         game = new Game(); // create new Game obj
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Check if tapping the same current eyeball position
                 if (tappedRow == game.getEyeballRow() && tappedCol == game.getEyeballColumn()) {
-                    dialogTextView.setText("Cannot tap the current cell as a move");
+                    dialogTextView.setText("You are already here");
                     if (isSoundOn) {
                         illegalMoveSound.start();
                     }
