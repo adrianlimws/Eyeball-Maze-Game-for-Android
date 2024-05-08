@@ -1,15 +1,19 @@
 package nz.ac.ara.adrianlim.eyeballmaze;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Direction;
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Message;
@@ -113,6 +117,29 @@ public class MainActivity extends AppCompatActivity {
                     Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
                     showInvalidMoveMessage(message);
                 }
+            }
+        });
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.action_sound) {
+                    // Handle sound on/off logic
+                    return true;
+                } else if (itemId == R.id.action_undo) {
+                    // Handle undo action
+                    return true;
+                } else if (itemId == R.id.action_pause) {
+                    // Handle pause game action
+                    return true;
+                } else if (itemId == R.id.action_load_save) {
+                    // Handle load/save game logic
+                    return true;
+                }
+                return false;
             }
         });
     }

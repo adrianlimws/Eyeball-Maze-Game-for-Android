@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <TextView
         android:id="@+id/text_maze_level"
         android:layout_width="wrap_content"
@@ -24,26 +23,25 @@
         android:id="@+id/text_rule_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:background="@color/cardview_dark_background"
         android:padding="5dp"
         android:text="Select a tile to make a move"
         android:textColor="@color/design_default_color_on_primary"
         android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintTop_toBottomOf="@id/text_maze_level" />
 
     <TextView
         android:id="@+id/text_move_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="164dp"
+        android:layout_marginEnd="72dp"
         android:text="Moves: 0"
         android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/text_goal_count"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -59,15 +57,22 @@
 
     <GridView
         android:id="@+id/grid_game_level"
-        android:layout_width="match_parent"
-        android:layout_height="610dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:numColumns="4"
-        android:stretchMode="spacingWidthUniform"
+        android:stretchMode="columnWidth"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_rule_dialog" />
+        app:layout_constraintTop_toBottomOf="@id/text_rule_dialog" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

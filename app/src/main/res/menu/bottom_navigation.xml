@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_sound"
+        android:icon="@drawable/icon_soundon"
+        android:title="Sound" />
+
+    <item
+        android:id="@+id/action_undo"
+        android:icon="@drawable/icon_undo"
+        android:title="Undo" />
+
+    <item
+        android:id="@+id/action_pause"
+        android:icon="@drawable/icon_pause"
+        android:title="Pause" />
+
+    <item
+        android:id="@+id/action_load_save"
+        android:icon="@drawable/icon_save"
+        android:title="Load/Save" />
+</menu>
