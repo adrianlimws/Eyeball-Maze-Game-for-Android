@@ -22,17 +22,23 @@ public class MainActivity extends AppCompatActivity {
     private TextView levelNameTextView;
     private TextView dialogTextView;
 
+    private TextView moveCountTextView;
+    private TextView goalCountTextView;
     private int moveCount = 0;
+    private int initialGoalCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dialogTextView = findViewById(R.id.text_dialog);
-        dialogTextView.setText("Select a tile to make a move");
-
+        // level data display
         levelNameTextView = findViewById(R.id.text_maze_level);
-        TextView moveCountTextView = findViewById(R.id.text_moveCount);
+        moveCountTextView = findViewById(R.id.text_move_count);
+        goalCountTextView = findViewById(R.id.text_goal_count);
+
+        // rules dialog textview
+        dialogTextView = findViewById(R.id.text_rule_dialog);
+        dialogTextView.setText("Select a tile to make a move");
 
         // Define the layout of the game level using the numeric value found in GameGridAdapter.java (line 71)
         int[][] levelLayout = {
@@ -49,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         game.addGoal(0, 2); // add position of the goal
         game.addEyeball(5, 1, Direction.UP); // add position of the eyeball and its facing direction
 
+        // Store the initial goal count
+        initialGoalCount = game.getGoalCount();
+        goalCountTextView.setText("Goal: 0/" + initialGoalCount);
         // create a GameGridAdapter to populate the GridView with the game data
         GameGridAdapter gameGridAdapter = new GameGridAdapter(this, game);
         // Locate the GridView in layout/activity_main.xml
@@ -65,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
                 // Calculate the row and column based on the tapped position by player
                 int tappedRow = position / game.getLevelWidth();
                 int tappedCol = position % game.getLevelWidth();
+
+                // Check if tapping the same current eyeball position
+                if (tappedRow == game.getEyeballRow() && tappedCol == game.getEyeballColumn()) {
+                    dialogTextView.setText("Cannot tap the current cell as a move");
+                    return;
+                }
 
                 // Check if the tapped position is a valid move
                 if (game.canMoveTo(tappedRow, tappedCol)) {
@@ -83,12 +98,17 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("EyeballMaze", "Game Goal count: " + game.getGoalCount());
                     Log.d("EyeballMaze", "Completed Goal Count: " + game.getCompletedGoalCount());
 
+                    int currentGoalCount = game.getGoalCount();
+
                     // if all goals are completed
                     if (game.getGoalCount() == 0) {
                         showGameOverDialog(true);
                     } else if (!game.hasLegalMoves()) {
                         showGameOverDialog(false);
                     }
+
+                    // Update the goal count TextView
+                    goalCountTextView.setText("Goal: " + game.getCompletedGoalCount() + "/" + initialGoalCount);
                 } else {
                     Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
                     showInvalidMoveMessage(message);

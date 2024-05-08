@@ -39,13 +39,11 @@ public class Game {
         return currentLevel.getHeight();
     }
 
-//     Get current level width
+    // Get current level width
     public int getLevelWidth() {
         isCurrentLevel();
         return currentLevel.getWidth();
     }
-
-
 
     // Returns total number of levels
     public int getLevelCount() {

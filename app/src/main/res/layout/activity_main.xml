@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_dialog"
+        android:id="@+id/text_rule_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/cardview_dark_background"
@@ -36,29 +36,25 @@
         app:layout_constraintVertical_bias="0.061" />
 
     <TextView
-        android:id="@+id/text_moveCount"
+        android:id="@+id/text_move_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="164dp"
         android:text="Moves: 0"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.114"
-        app:layout_constraintStart_toEndOf="@+id/text_maze_level"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_goalCount"
+        android:id="@+id/text_goal_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="108dp"
+        android:layout_marginEnd="8dp"
         android:text="Goal: 0/1"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_moveCount"
         app:layout_constraintTop_toTopOf="parent" />
 
     <GridView
@@ -71,17 +67,7 @@
         android:stretchMode="spacingWidthUniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_dialog" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="87dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        android:text="Menu"
-        app:layout_constraintStart_toEndOf="@+id/text_goalCount"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text_rule_dialog" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
