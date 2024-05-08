@@ -104,15 +104,29 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Quit Game", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // ok
+                        AlertDialog.Builder confirmBuilder = new AlertDialog.Builder(MainActivity.this);
+                        confirmBuilder.setTitle("Confirm Quit")
+                                .setMessage("Are you sure you want to quit the game?")
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface confirmDialog, int confirmId) {
+                                        finish();
+                                    }
+                                })
+                                .setNegativeButton("Restart Level", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface confirmDialog, int confirmId) {
+                                        recreate();
+                                    }
+                                })
+                                .show();
                     }
                 })
                 .setNegativeButton("Restart", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // restart level
+                        recreate();
                     }
                 });
 
@@ -137,7 +151,5 @@ public class MainActivity extends AppCompatActivity {
         }
         dialogTextView.setText(messageText);
     }
-
-
 
 }
