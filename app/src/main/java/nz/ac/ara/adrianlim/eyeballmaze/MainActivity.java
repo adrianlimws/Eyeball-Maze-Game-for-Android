@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer illegalMoveSound;
     private MediaPlayer goalReachedSound;
     private MediaPlayer gameOverSound;
+    private boolean isSoundOn = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         // Initialize sound effects
         legalMoveSound = MediaPlayer.create(this, R.raw.legal_move_sound);
         illegalMoveSound = MediaPlayer.create(this, R.raw.illegal_move_sound);
+        goalReachedSound = MediaPlayer.create(this, R.raw.goal_reached_sound);
+        gameOverSound = MediaPlayer.create(this, R.raw.game_over_sound);
 
         // level data display
         levelNameTextView = findViewById(R.id.text_maze_level);
@@ -92,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
                 // Check if tapping the same current eyeball position
                 if (tappedRow == game.getEyeballRow() && tappedCol == game.getEyeballColumn()) {
                     dialogTextView.setText("Cannot tap the current cell as a move");
+                    if (isSoundOn) {
+                        illegalMoveSound.start();
+                    }
                     return;
                 }
 
@@ -100,8 +106,9 @@ public class MainActivity extends AppCompatActivity {
                     // Move to the tapped position
                     game.moveTo(tappedRow, tappedCol);
                     // play move sound
-                    legalMoveSound.start();
-
+                    if (isSoundOn) {
+                        legalMoveSound.start();
+                    }
                     // Increment the move count per legal move
                     moveCount++;
                     moveCountTextView.setText("Moves: " + moveCount);
@@ -119,16 +126,23 @@ public class MainActivity extends AppCompatActivity {
                     // if all goals are completed
                     if (game.getGoalCount() == 0) {
                         showGameOverDialog(true);
+                        if (isSoundOn) {
+                            goalReachedSound.start();
+                        }
                     } else if (!game.hasLegalMoves()) {
                         showGameOverDialog(false);
+                        if (isSoundOn) {
+                            gameOverSound.start();
+                        }
                     }
 
                     // Update the goal count TextView
                     goalCountTextView.setText("Goal: " + game.getCompletedGoalCount() + "/" + initialGoalCount);
                 } else {
                     // Play the illegal move sound
-                    illegalMoveSound.start();
-
+                    if (isSoundOn) {
+                        illegalMoveSound.start();
+                    }
                     Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
                     showInvalidMoveMessage(message);
                 }
@@ -142,7 +156,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_sound) {
-                    // Handle sound on/off logic
+                    isSoundOn = !isSoundOn;
+
+                    // Update the sound icon based on the state
+                    if (isSoundOn) {
+                        item.setIcon(R.drawable.icon_sound_on);
+                    } else {
+                        item.setIcon(R.drawable.icon_sound_off);
+                    }
                     return true;
                 } else if (itemId == R.id.action_undo) {
                     // Handle undo action
@@ -166,8 +187,8 @@ public class MainActivity extends AppCompatActivity {
         // Release sound resources
         legalMoveSound.release();
         illegalMoveSound.release();
-//        goalReachedSound.release();
-//        gameOverSound.release();
+        goalReachedSound.release();
+        gameOverSound.release();
     }
 
     private void updateLevelName() {
