@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="rules_text_color">#4361ee</color>
+    <color name="level_text_color">#ff99c8</color>
+    <color name="timer_text_color">#fcf6bd</color>
+    <color name="move_text_color">#e4c1f9</color>
+    <color name="goal_text_color">#d0f4de</color>
 </resources>

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">eyeballmaze</string>
     <string name="maze_level">Maze 1</string>
+    <string name="time_00_00">Time: 00:00</string>
+    <string name="moves_0">Moves: 0</string>
+    <string name="goal_0_1">Goal: 0/1</string>
+    <string name="select_a_tile_to_make_a_move">Select a tile to make a move</string>
 </resources>

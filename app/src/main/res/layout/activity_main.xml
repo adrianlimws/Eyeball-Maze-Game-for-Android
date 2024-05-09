@@ -14,6 +14,8 @@
         android:layout_marginTop="16dp"
         android:text="@string/maze_level"
         android:textSize="20sp"
+        android:padding="2dp"
+        android:background="@color/level_text_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,8 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Time: 00:00"
+        android:text="@string/time_00_00"
         android:textSize="20sp"
+        android:padding="2dp"
+        android:background="@color/timer_text_color"
         app:layout_constraintEnd_toStartOf="@+id/text_move_count"
         app:layout_constraintStart_toEndOf="@+id/text_maze_level"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,10 +37,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Moves: 0"
+        android:background="@color/move_text_color"
+        android:padding="2dp"
+        android:text="@string/moves_0"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/text_goal_count"
+        app:layout_constraintEnd_toStartOf="@+id/text_goal_count"
+        app:layout_constraintStart_toEndOf="@+id/text_elapsed_time"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -45,8 +51,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Goal: 0/1"
+        android:text="@string/goal_0_1"
         android:textSize="20sp"
+        android:padding="2dp"
+        android:background="@color/goal_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,11 +65,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/cardview_dark_background"
+        android:background="@color/rules_text_color"
         android:padding="8dp"
-        android:text="Select a tile to make a move"
+        android:text="@string/select_a_tile_to_make_a_move"
         android:textColor="@color/design_default_color_on_primary"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_maze_level" />
