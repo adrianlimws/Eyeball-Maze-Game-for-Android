@@ -27,6 +27,7 @@ import nz.ac.ara.adrianlim.eyeballmaze.models.Level;
 public class MainActivity extends AppCompatActivity {
     private Game game;
     private Level level;
+    private GridView gridView;
     private TextView levelNameTextView;
     private TextView dialogTextView;
     private TextView moveCountTextView;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private long startTime;
     private TextView elapsedTimeTextView;
     private boolean isGameOver = false;
+    private boolean isPaused = false;
+    private long pauseTime = 0;
     private Handler handler = new Handler();
     private Runnable updateTimeRunnable = new Runnable() {
         @Override
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        gridView = findViewById(R.id.grid_game_level);
 
         // Initialise sound effects
         legalMoveSound = MediaPlayer.create(this, R.raw.legal_move_sound);
@@ -216,7 +221,20 @@ public class MainActivity extends AppCompatActivity {
                         dialog.show();
                     }
                 } else if (itemId == R.id.action_pause) {
-                    // Handle pause game action
+                    if (isPaused) {
+                        isPaused = false;
+                        gridView.setVisibility(View.VISIBLE);
+                        startTime += System.currentTimeMillis() - pauseTime;
+                        handler.postDelayed(updateTimeRunnable, 1000);
+                        item.setIcon(R.drawable.icon_pause);
+                    } else {
+                        isPaused = true;
+                        gridView.setVisibility(View.INVISIBLE);
+                        pauseTime = System.currentTimeMillis();
+                        handler.removeCallbacks(updateTimeRunnable);
+                        item.setIcon(R.drawable.icon_pause);
+                        showPauseDialog();
+                    }
                     return true;
                 } else if (itemId == R.id.action_load_save) {
                     // Handle load/save game logic
@@ -320,15 +338,43 @@ public class MainActivity extends AppCompatActivity {
     private void updateElapsedTime() {
         if (!isGameOver) {
             long currentTime = System.currentTimeMillis();
-            long elapsedTime = currentTime - startTime;
+            long elapsedTime;
 
-            // Format the elapsed time as desired (e.g., mm:ss)
+            if (isPaused) {
+                elapsedTime = pauseTime - startTime;
+            } else {
+                elapsedTime = currentTime - startTime;
+            }
+
             String formattedTime = String.format("%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes(elapsedTime),
                     TimeUnit.MILLISECONDS.toSeconds(elapsedTime) % 60);
 
             elapsedTimeTextView.setText("Time: " + formattedTime);
         }
+    }
+
+    private void showPauseDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Game Paused")
+                .setMessage("Do you want to continue the game?")
+                .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        isPaused = false;
+                        gridView.setVisibility(View.VISIBLE);
+                        startTime += System.currentTimeMillis() - pauseTime;
+                        handler.postDelayed(updateTimeRunnable, 1000);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Quit", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }
