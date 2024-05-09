@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                 messageText = "Cannot move over blank squares";
                 break;
             case DIFFERENT_SHAPE_OR_COLOR:
-                messageText = "Can only move to a square with the same color or shape";
+                messageText = "Can only move to same color or shape";
                 break;
         }
         dialogTextView.setText(messageText);
