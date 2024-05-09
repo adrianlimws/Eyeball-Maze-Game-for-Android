@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.concurrent.TimeUnit;
 
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Direction;
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Message;
@@ -36,6 +39,17 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer gameOverSound;
     private boolean isSoundOn = true;
     private boolean isUndoUsed = false;
+    private long startTime;
+    private TextView elapsedTimeTextView;
+    private boolean isGameOver = false;
+    private Handler handler = new Handler();
+    private Runnable updateTimeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            updateElapsedTime();
+            handler.postDelayed(this, 1000); // Update every second
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
         // level data display
         levelNameTextView = findViewById(R.id.text_maze_level);
+        elapsedTimeTextView = findViewById(R.id.text_elapsed_time);
         moveCountTextView = findViewById(R.id.text_move_count);
         goalCountTextView = findViewById(R.id.text_goal_count);
+
+        // start timer
+        startTime = System.currentTimeMillis();
 
         // rules dialog textview
         dialogTextView = findViewById(R.id.text_rule_dialog);
@@ -210,6 +228,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        handler.postDelayed(updateTimeRunnable, 1000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(updateTimeRunnable);
+    }
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -226,6 +255,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showGameOverDialog(boolean isWin) {
+
+        isGameOver = true;
+        handler.removeCallbacks(updateTimeRunnable);
+
         String title = isWin ? "Congratulations!" : "Game Over";
         String message = isWin ? "You have completed the level!" : "You lost as there are no legal moves to make.";
 
@@ -245,6 +278,7 @@ public class MainActivity extends AppCompatActivity {
                                 .setNegativeButton("Restart Level", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface confirmDialog, int confirmId) {
                                         isUndoUsed = false;
+                                        isGameOver = false;
                                         recreate();
                                     }
                                 })
@@ -256,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // restart level
                         isUndoUsed = false;
+                        isGameOver = false;
                         recreate();
                     }
                 });
@@ -280,6 +315,20 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         dialogTextView.setText(messageText);
+    }
+
+    private void updateElapsedTime() {
+        if (!isGameOver) {
+            long currentTime = System.currentTimeMillis();
+            long elapsedTime = currentTime - startTime;
+
+            // Format the elapsed time as desired (e.g., mm:ss)
+            String formattedTime = String.format("%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(elapsedTime),
+                    TimeUnit.MILLISECONDS.toSeconds(elapsedTime) % 60);
+
+            elapsedTimeTextView.setText("Time: " + formattedTime);
+        }
     }
 
 }
