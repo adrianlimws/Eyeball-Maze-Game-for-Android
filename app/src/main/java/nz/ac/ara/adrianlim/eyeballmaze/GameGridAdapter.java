@@ -1,6 +1,8 @@
 package nz.ac.ara.adrianlim.eyeballmaze;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +26,18 @@ public class GameGridAdapter extends BaseAdapter {
         this.context = context;
         this.game = game;
 
-        // Calculate cell dimensions based on screen width and number of columns
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        int screenWidth = displayMetrics.widthPixels;
-        int numColumns = game.getLevelWidth();
-        cellWidth = screenWidth / numColumns;
-        cellHeight = cellWidth; // treated as square cells
+        // Get cell dimensions from resources
+//        cellWidth = context.getResources().getDimensionPixelSize(R.dimen.cell_width);
+//        cellHeight = context.getResources().getDimensionPixelSize(R.dimen.cell_height);
+        // Get cell dimensions based on orientation
+        Resources resources = context.getResources();
+        if (resources.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            cellWidth = resources.getDimensionPixelSize(R.dimen.cell_width_landscape);
+            cellHeight = resources.getDimensionPixelSize(R.dimen.cell_height_landscape);
+        } else {
+            cellWidth = resources.getDimensionPixelSize(R.dimen.cell_width);
+            cellHeight = resources.getDimensionPixelSize(R.dimen.cell_height);
+        }
     }
 
     // Returns total number of cells in the grid
@@ -68,7 +76,7 @@ public class GameGridAdapter extends BaseAdapter {
         shapeImageView.setLayoutParams(new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
-        shapeImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        shapeImageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
         // Calculate the row and column indices based on the position
         int row = position / game.getLevelWidth();
@@ -137,7 +145,7 @@ public class GameGridAdapter extends BaseAdapter {
             goalImageView.setLayoutParams(new FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     FrameLayout.LayoutParams.MATCH_PARENT));
-            goalImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            goalImageView.setScaleType(ImageView.ScaleType.FIT_XY);
             goalImageView.setImageResource(R.drawable.goal);
             frameLayout.addView(goalImageView);
         }
@@ -148,7 +156,7 @@ public class GameGridAdapter extends BaseAdapter {
             eyeballImageView.setLayoutParams(new FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     FrameLayout.LayoutParams.MATCH_PARENT));
-            eyeballImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            eyeballImageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
             // Set eyeball image based on the direction
             Direction eyeballDirection = game.getEyeballDirection();

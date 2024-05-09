@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cell_width">60dp</dimen>
+    <dimen name="cell_height">60dp</dimen>
+    <dimen name="cell_width_landscape">25dp</dimen>
+    <dimen name="cell_height_landscape">25dp</dimen>
+    <dimen name="gridview_width_percent">0.9</dimen>
+</resources>
