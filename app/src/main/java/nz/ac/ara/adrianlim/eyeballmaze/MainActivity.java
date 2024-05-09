@@ -26,12 +26,10 @@ public class MainActivity extends AppCompatActivity {
     private Level level;
     private TextView levelNameTextView;
     private TextView dialogTextView;
-
     private TextView moveCountTextView;
     private TextView goalCountTextView;
     private int moveCount = 0;
     private int initialGoalCount;
-
     private MediaPlayer legalMoveSound;
     private MediaPlayer illegalMoveSound;
     private MediaPlayer goalReachedSound;
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize sound effects
+        // Initialise sound effects
         legalMoveSound = MediaPlayer.create(this, R.raw.legal_move_sound);
         illegalMoveSound = MediaPlayer.create(this, R.raw.illegal_move_sound);
         goalReachedSound = MediaPlayer.create(this, R.raw.goal_reached_sound);
@@ -164,16 +162,30 @@ public class MainActivity extends AppCompatActivity {
                         item.setIcon(R.drawable.icon_sound_on);
                     } else {
                         item.setIcon(R.drawable.icon_sound_off);
-                    } return true;
+                    }
+                    return true;
                 } else if (itemId == R.id.action_undo) {
-                    if (!isUndoUsed) {
+                    if (!isUndoUsed && moveCount > 0) {
                         game.undoLastMove();
                         gameGridAdapter.notifyDataSetChanged();
                         isUndoUsed = true;
                         moveCount--;
                         moveCountTextView.setText("Moves: " + moveCount);
                         return true;
+                    } else if (moveCount == 0) {
+                        // Show an AlertDialog indicating that no move has been made
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("No Move Made")
+                                .setMessage("You haven't made any moves yet.")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     } else {
+                        // Show an AlertDialog indicating that undo has already been used
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setTitle("Undo Used")
                                 .setMessage("Undo has already been used. You cannot use it again.")
