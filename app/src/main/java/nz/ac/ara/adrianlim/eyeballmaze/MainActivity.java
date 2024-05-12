@@ -26,6 +26,7 @@ import nz.ac.ara.adrianlim.eyeballmaze.enums.Message;
 import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String VIDEO_PATH = "android.resource://%s/" + R.raw.rules_video;
     private Game game;
     private GridView gridView;
     private TextView levelNameTextView;
@@ -202,30 +203,36 @@ public class MainActivity extends AppCompatActivity {
             moveCountTextView.setText(getString(R.string.moves, moveCount));
 
         } else if (moveCount == 0) {
-            // Show an AlertDialog indicating that no move has been made
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("No Move Made")
-                    .setMessage("You haven't made any moves yet.")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            showNoMoveDialog();
         } else {
-            // Show an AlertDialog indicating that undo has already been used
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Undo Used")
-                    .setMessage("Undo has already been used for this level. You cannot use it again.")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            showUndoUsedDialog();
         }
+    }
+
+    private void showNoMoveDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("No Move Made")
+                .setMessage("You haven't made any moves yet.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showUndoUsedDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Undo Used")
+                .setMessage("Undo has already been used for this level. You cannot use it again.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void handlePause(MenuItem item) {
@@ -280,8 +287,7 @@ public class MainActivity extends AppCompatActivity {
         VideoView videoView = view.findViewById(R.id.videoView);
         ImageButton closeButton = view.findViewById(R.id.closeButton);
 
-        // Set the video path
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.rules_video;
+        String videoPath = String.format(VIDEO_PATH, getPackageName());
         videoView.setVideoPath(videoPath);
 
         final AlertDialog dialog = builder.create();
@@ -302,8 +308,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dialog.show();
-
-        // Start playing the video
         videoView.start();
     }
 
