@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Direction;
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                         // Show an AlertDialog indicating that undo has already been used
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setTitle("Undo Used")
-                                .setMessage("Undo has already been used. You cannot use it again.")
+                                .setMessage("Undo has already been used for this level. You cannot use it again.")
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.dismiss();
@@ -237,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     return true;
                 } else if (itemId == R.id.action_load_save) {
-                    // Handle load/save game logic
+                    // load/save game logic
                     return true;
                 }
                 return false;
@@ -346,11 +347,11 @@ public class MainActivity extends AppCompatActivity {
                 elapsedTime = currentTime - startTime;
             }
 
-            String formattedTime = String.format("%02d:%02d",
+            String formattedTime = String.format(Locale.US, "%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes(elapsedTime),
                     TimeUnit.MILLISECONDS.toSeconds(elapsedTime) % 60);
 
-            elapsedTimeTextView.setText("Time: " + formattedTime);
+            elapsedTimeTextView.setText(getString(R.string.elapsed_time_text, formattedTime));
         }
     }
 

@@ -150,7 +150,7 @@ public class GameGridAdapter extends BaseAdapter {
             frameLayout.addView(goalImageView);
         }
 
-        // If the cell has eyeball, add an eyeball ImageView to the FrameLayout
+        // If cell has eyeball, add an eyeball ImageView to the FrameLayout
         if (row == game.getEyeballRow() && col == game.getEyeballColumn()) {
             ImageView eyeballImageView = new ImageView(context);
             eyeballImageView.setLayoutParams(new FrameLayout.LayoutParams(

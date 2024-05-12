@@ -190,6 +190,7 @@ public class Game {
         isCurrentLevel();
         checkSquarePosition(row, column);
         if (currentLevel.canMoveTo(row, column, eyeball, this)) {
+            // Created in portoflio version
             // Store previous eyeball position before moving
             previousEyeballRow = eyeball.getRow();
             previousEyeballColumn = eyeball.getColumn();

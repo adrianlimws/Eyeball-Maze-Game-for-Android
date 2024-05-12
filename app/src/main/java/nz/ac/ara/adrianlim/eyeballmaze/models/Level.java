@@ -263,14 +263,14 @@ public class Level {
         if (hasGoalAt(eyeball.getRow(), eyeball.getColumn())) {
             squares[eyeball.getRow()][eyeball.getColumn()] = new BlankSquare();
             goals.remove(currentPosition);
-            Log.d("EyeballMaze", "Current position is a goal. Goal removed.");
+//            Log.d("EyeballMaze", "Current position is a goal. Goal removed.");
         }
 
         // If the target position is a goal, remove it from goals set and increment the completedGoalCount
         if (hasGoalAt(row, column)) {
             goals.remove(targetPosition);
             completedGoalCount++;
-            Log.d("EyeballMaze", "Target position is a goal. Goal removed and completedGoalCount incremented.");
+//            Log.d("EyeballMaze", "Target position is a goal. Goal removed and completedGoalCount incremented.");
         }
 
         // Calculate difference between the target row and the eyeball's current row
