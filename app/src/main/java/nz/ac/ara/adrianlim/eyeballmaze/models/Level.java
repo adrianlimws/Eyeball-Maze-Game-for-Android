@@ -14,10 +14,8 @@ public class Level {
 
 	private int height;
     private int width;
-    // 2D array to store squares for each level
     private Square[][] squares;
     private int[][] levelLayout;
-    // Set positions of the goals in a level
     private Set<Position> goals = new HashSet<>();
 
     private int completedGoalCount;
@@ -25,13 +23,6 @@ public class Level {
     private String levelName;
 
     // Constructor 
-    // initialize the level with the given height and width
-//    public Level(int height, int width) {
-//        this.height = height;
-//        this.width = width;
-//        this.squares = new Square[height][width];
-//    }
-
     // Created in portoflio version, extending the original Ass2 constructor
     public Level(String levelName, int[][] levelLayout) {
         this.levelLayout = levelLayout;
@@ -93,57 +84,49 @@ public class Level {
     public String getLevelName() {
         return levelName;
     }
+
     // Square-related methods
 
     public int getSquareAt(int row, int col) {
         return levelLayout[row][col];
     }
 
-    // Add a square with the given row and column position
     public void addSquare(Square square, int row, int column) {
         squares[row][column] = square;
     }
 
-    // Get the square based on row and column position
     public Square getSquare(int row, int column) {
         return squares[row][column];
     }
 
-    // Get color of the square based on row and column position
     public Color getColorAt(int row, int column) {
         return getSquare(row, column).getColor();
     }
 
-    // Get shape of the square based on row and column position
     public Shape getShapeAt(int row, int column) {
         return getSquare(row, column).getShape();
     }
 
     // Goal-related methods
 
-    // Add a goal at the given row and column position
     public void addGoal(int row, int column) {
         goals.add(new Position(row, column));
     }
 
-    // Check if there is a goal at the given row and column position
     public boolean hasGoalAt(int row, int column) {
         return goals.stream().anyMatch(goal -> goal.getRow() == row && goal.getColumn() == column);
     }
 
-    // Get count of goals in the level
     public int getGoalCount() {
         return goals.size();
     }
 
-    // Get the count of completed goals
     public int getCompletedGoalCount() {
         return completedGoalCount;
     }
 
     // Direction/Movement methods
 
-    // Check if the given row and column position is a valid move for eyeball
     public boolean isDirectionOK(int row, int column, Eyeball eyeball) {
         int currentRow = eyeball.getRow();
         int currentColumn = eyeball.getColumn();
@@ -169,8 +152,6 @@ public class Level {
         }
     }
 
-
-    // Check if there is a blank-free path from eyeball's current position to the given row and column position
     public boolean hasBlankFreePathTo(int row, int column, Eyeball eyeball) {
         int currentRow = eyeball.getRow();
         int currentColumn = eyeball.getColumn();
@@ -198,7 +179,6 @@ public class Level {
         return true;
     }
 
-    // Get appropriate message for the given row and column position
     public Message checkDirectionMessage(int row, int column, Eyeball eyeball) {
     	if (!isDirectionOK(row, column, eyeball)) {
     		if (row != eyeball.getRow() && column != eyeball.getColumn()) {
@@ -210,7 +190,6 @@ public class Level {
     	return Message.OK;
     }
 
-    // Get appropriate message for the given row and column position, checking for blank squares in the path
     public Message checkMessageForBlankOnPathTo(int row, int column, Eyeball eyeball) {
         if (!hasBlankFreePathTo(row, column, eyeball)) {
             return Message.MOVING_OVER_BLANK;
@@ -218,7 +197,6 @@ public class Level {
         return Message.OK;
     }
 
-    // Check if the eyeball can move to the given row and column position
     public boolean canMoveTo(int row, int column, Eyeball eyeball, Game game) {
         if (!isDirectionOK(row, column, eyeball) || !hasBlankFreePathTo(row, column, eyeball)) {
             return false;
@@ -233,7 +211,6 @@ public class Level {
 
     }
 
-    // Get the appropriate message for the given row and column position, considering all conditions
     public Message MessageIfMovingTo(int row, int column, Eyeball eyeball, Game game) {
         if (!isDirectionOK(row, column, eyeball)) {
             return checkDirectionMessage(row, column, eyeball);
@@ -250,7 +227,6 @@ public class Level {
         return Message.OK;
     }
 
-    // Method to move the eyeball to the given row and column position
     public void moveTo(int row, int column, Eyeball eyeball) {
 
     	// Replace current square with a BlankSquare
@@ -263,7 +239,6 @@ public class Level {
         if (hasGoalAt(eyeball.getRow(), eyeball.getColumn())) {
             squares[eyeball.getRow()][eyeball.getColumn()] = new BlankSquare();
             goals.remove(currentPosition);
-//            Log.d("EyeballMaze", "Current position is a goal. Goal removed.");
         }
 
         // If the target position is a goal, remove it from goals set and increment the completedGoalCount

@@ -27,9 +27,6 @@ public class GameGridAdapter extends BaseAdapter {
         this.game = game;
 
         // Get cell dimensions from resources
-//        cellWidth = context.getResources().getDimensionPixelSize(R.dimen.cell_width);
-//        cellHeight = context.getResources().getDimensionPixelSize(R.dimen.cell_height);
-        // Get cell dimensions based on orientation
         Resources resources = context.getResources();
         if (resources.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             cellWidth = resources.getDimensionPixelSize(R.dimen.cell_width_landscape);

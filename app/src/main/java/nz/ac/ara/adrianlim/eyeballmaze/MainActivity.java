@@ -27,6 +27,10 @@ import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
 
 public class MainActivity extends AppCompatActivity {
     private static final String VIDEO_PATH = "android.resource://%s/" + R.raw.rules_video;
+    private static final String DIALOG_TITLE_GAME_OVER = "Game Over";
+    private static final String DIALOG_TITLE_CONGRATULATIONS = "Congratulations!";
+    private static final String DIALOG_MESSAGE_NO_MOVES = "You lost as there are no legal moves to make.";
+    private static final String DIALOG_MESSAGE_LEVEL_COMPLETED = "You have completed the level in %s!";
     private Game game;
     private GridView gridView;
     private TextView levelNameTextView;
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             handler.postDelayed(this, 1000); // Update every second
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -252,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -315,14 +319,8 @@ public class MainActivity extends AppCompatActivity {
         isGameOver = true;
         handler.removeCallbacks(updateTimeRunnable);
 
-        String title = isWin ? "Congratulations!" : "Game Over";
-        String message;
-
-        if (isWin) {
-            message = "You have completed the level in " + finalElapsedTime + "!";
-        } else {
-            message = "You lost as there are no legal moves to make.";
-        }
+        String title = isWin ? DIALOG_TITLE_CONGRATULATIONS : DIALOG_TITLE_GAME_OVER;
+        String message = isWin ? String.format(DIALOG_MESSAGE_LEVEL_COMPLETED, finalElapsedTime) : DIALOG_MESSAGE_NO_MOVES;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
