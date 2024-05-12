@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,7 +25,6 @@ import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
 
 public class MainActivity extends AppCompatActivity {
     private Game game;
-
     private GridView gridView;
     private TextView levelNameTextView;
     private TextView dialogTextView;
@@ -42,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isUndoUsed = false;
     private long startTime;
     private TextView elapsedTimeTextView;
+    private String finalElapsedTime;
     private boolean isGameOver = false;
     private boolean isPaused = false;
     private long pauseTime = 0;
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Store the initial goal count
         initialGoalCount = game.getGoalCount();
-        goalCountTextView.setText(getString(R.string.goal_0) + initialGoalCount);
+        goalCountTextView.setText(getString(R.string.goal_0, initialGoalCount));
         // create a GameGridAdapter to populate the GridView with the game data
         GameGridAdapter gameGridAdapter = new GameGridAdapter(this, game);
         // Locate the GridView in layout/activity_main.xml
@@ -270,12 +269,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showGameOverDialog(boolean isWin) {
-
         isGameOver = true;
         handler.removeCallbacks(updateTimeRunnable);
 
         String title = isWin ? "Congratulations!" : "Game Over";
-        String message = isWin ? "You have completed the level!" : "You lost as there are no legal moves to make.";
+        String message;
+
+        if (isWin) {
+            message = "You have completed the level in " + finalElapsedTime + "!";
+        } else {
+            message = "You lost as there are no legal moves to make.";
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
@@ -347,6 +351,8 @@ public class MainActivity extends AppCompatActivity {
             String formattedTime = String.format(Locale.US, "%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes(elapsedTime),
                     TimeUnit.MILLISECONDS.toSeconds(elapsedTime) % 60);
+
+            finalElapsedTime = formattedTime;
 
             elapsedTimeTextView.setText(getString(R.string.elapsed_time_text, formattedTime));
         }
