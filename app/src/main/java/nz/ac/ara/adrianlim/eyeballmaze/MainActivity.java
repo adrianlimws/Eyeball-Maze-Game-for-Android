@@ -59,29 +59,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        createViews();
+        createSoundEffects();
+        createGame();
+        setupGridViewListener();
+        setupBottomNavigation();
+    }
+
+    private void createViews() {
         gridView = findViewById(R.id.grid_game_level);
-
-        // Initialise sound effects
-        legalMoveSound = MediaPlayer.create(this, R.raw.legal_move_sound);
-        illegalMoveSound = MediaPlayer.create(this, R.raw.illegal_move_sound);
-        goalReachedSound = MediaPlayer.create(this, R.raw.goal_reached_sound);
-        gameOverSound = MediaPlayer.create(this, R.raw.game_over_sound);
-
-        // level data display
         levelNameTextView = findViewById(R.id.text_maze_level);
         elapsedTimeTextView = findViewById(R.id.text_elapsed_time);
         moveCountTextView = findViewById(R.id.text_move_count);
         goalCountTextView = findViewById(R.id.text_goal_count);
-
-        // start timer
-        startTime = System.currentTimeMillis();
-
-        // rules dialog textview
         dialogTextView = findViewById(R.id.text_rule_dialog);
         dialogTextView.setText(getString(R.string.select_a_tile_to_make_a_move));
+    }
 
-        // Define the layout of the game level using the numeric value found in GameGridAdapter.java (line 71)
-        int[][] levelLayout = {
+    private void createSoundEffects() {
+        legalMoveSound = MediaPlayer.create(this, R.raw.legal_move_sound);
+        illegalMoveSound = MediaPlayer.create(this, R.raw.illegal_move_sound);
+        goalReachedSound = MediaPlayer.create(this, R.raw.goal_reached_sound);
+        gameOverSound = MediaPlayer.create(this, R.raw.game_over_sound);
+    }
+
+    private void createGame() {
+        int[][] gameLevelLayout = {
                 {0, 0, 11, 0},
                 {1, 12, 8, 2},
                 {10, 15, 14, 8},
@@ -90,149 +93,85 @@ public class MainActivity extends AppCompatActivity {
                 {0, 5, 0, 6}
         };
 
-        game = new Game(); // create new Game obj
-        game.addLevel("Level 1",levelLayout); // add specific levelName, levelLayout
-        game.addGoal(0, 2); // add position of the goal
-        game.addEyeball(5, 1, Direction.UP); // add position of the eyeball and its facing direction
+        game = new Game();
+        game.addLevel("Level 1", gameLevelLayout);
+        game.addGoal(0, 2);
+        game.addEyeball(5, 1, Direction.UP);
 
-        // Store the initial goal count
         initialGoalCount = game.getGoalCount();
         goalCountTextView.setText(getString(R.string.goal_0, initialGoalCount));
-        // create a GameGridAdapter to populate the GridView with the game data
+
         GameGridAdapter gameGridAdapter = new GameGridAdapter(this, game);
-        // Locate the GridView in layout/activity_main.xml
-        GridView gridView = findViewById(R.id.grid_game_level);
-        // set GameGridAdapter as the GridView adapter
         gridView.setAdapter(gameGridAdapter);
 
         updateLevelName();
+        startTime = System.currentTimeMillis();
+    }
 
-        // Set onclick listener for GridView
+    private void setupGridViewListener() {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Calculate the row and column based on the tapped position by player
-                int tappedRow = position / game.getLevelWidth();
-                int tappedCol = position % game.getLevelWidth();
-
-                // Check if tapping the same current eyeball position
-                if (tappedRow == game.getEyeballRow() && tappedCol == game.getEyeballColumn()) {
-                    dialogTextView.setText(R.string.you_are_already_here);
-                    if (isSoundOn) {
-                        illegalMoveSound.start();
-                    }
-                    return;
-                }
-
-                // Check if the tapped position is a valid move
-                if (game.canMoveTo(tappedRow, tappedCol)) {
-                    // Move to the tapped position
-                    game.moveTo(tappedRow, tappedCol);
-                    // play move sound
-                    if (isSoundOn) {
-                        legalMoveSound.start();
-                    }
-                    // Increment the move count per legal move
-                    moveCount++;
-                    moveCountTextView.setText(getString(R.string.moves, moveCount));
-
-                    // notifyDataSetChanged ()
-                    // Notifies the attached observers that the underlying data has been changed and any View reflecting the data set should refresh itself.
-                    // Refresh the grid
-                    gameGridAdapter.notifyDataSetChanged();
-
-                    int currentGoalCount = game.getGoalCount();
-
-                    // if all goals are completed
-                    if (game.getGoalCount() == 0) {
-                        showGameOverDialog(true);
-                        if (isSoundOn) {
-                            goalReachedSound.start();
-                        }
-                    } else if (!game.hasLegalMoves()) {
-                        showGameOverDialog(false);
-                        if (isSoundOn) {
-                            gameOverSound.start();
-                        }
-                    }
-
-                    // Update the goal count TextView
-                    goalCountTextView.setText(String.format(Locale.US, "%s%d/%d", getString(R.string.goal), game.getCompletedGoalCount(), initialGoalCount));
-                } else {
-                    // Play the illegal move sound
-                    if (isSoundOn) {
-                        illegalMoveSound.start();
-                    }
-                    Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
-                    showInvalidMoveMessage(message);
-                }
+                handleGridItemClick(position);
             }
         });
+    }
 
+    private void handleGridItemClick(int position) {
+        int tappedRow = position / game.getLevelWidth();
+        int tappedCol = position % game.getLevelWidth();
+
+        if (tappedRow == game.getEyeballRow() && tappedCol == game.getEyeballColumn()) {
+            dialogTextView.setText(R.string.you_are_already_here);
+            playSoundEffect(illegalMoveSound);
+            return;
+        }
+
+        if (game.canMoveTo(tappedRow, tappedCol)) {
+            game.moveTo(tappedRow, tappedCol);
+            playSoundEffect(legalMoveSound);
+            moveCount++;
+            moveCountTextView.setText(getString(R.string.moves, moveCount));
+
+            GameGridAdapter gameGridAdapter = (GameGridAdapter) gridView.getAdapter();
+            gameGridAdapter.notifyDataSetChanged();
+
+            if (game.getGoalCount() == 0) {
+                showGameOverDialog(true);
+                playSoundEffect(goalReachedSound);
+            } else if (!game.hasLegalMoves()) {
+                showGameOverDialog(false);
+                playSoundEffect(gameOverSound);
+            }
+
+            goalCountTextView.setText(String.format(Locale.US, "%s%d/%d", getString(R.string.goal), game.getCompletedGoalCount(), initialGoalCount));
+        } else {
+            playSoundEffect(illegalMoveSound);
+            Message message = game.MessageIfMovingTo(tappedRow, tappedCol);
+            showInvalidMoveMessage(message);
+        }
+    }
+
+    private void playSoundEffect(MediaPlayer soundEffect) {
+        if (isSoundOn) {
+            soundEffect.start();
+        }
+    }
+
+    private void setupBottomNavigation() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_sound) {
-                    isSoundOn = !isSoundOn;
-
-                    // Update the sound icon based on the state
-                    if (isSoundOn) {
-                        item.setIcon(R.drawable.icon_sound_on);
-                    } else {
-                        item.setIcon(R.drawable.icon_sound_off);
-                    }
+                    toggleSound(item);
                     return true;
                 } else if (itemId == R.id.action_undo) {
-                    if (!isUndoUsed && moveCount > 0) {
-                        game.undoLastMove();
-                        gameGridAdapter.notifyDataSetChanged();
-                        isUndoUsed = true;
-                        moveCount--;
-                        moveCountTextView.setText(getString(R.string.moves, moveCount));
-                        return true;
-                    } else if (moveCount == 0) {
-                        // Show an AlertDialog indicating that no move has been made
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setTitle("No Move Made")
-                                .setMessage("You haven't made any moves yet.")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    } else {
-                        // Show an AlertDialog indicating that undo has already been used
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setTitle("Undo Used")
-                                .setMessage("Undo has already been used for this level. You cannot use it again.")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
+                    handleUndo();
+                    return true;
                 } else if (itemId == R.id.action_pause) {
-                    if (isPaused) {
-                        isPaused = false;
-                        gridView.setVisibility(View.VISIBLE);
-                        startTime += System.currentTimeMillis() - pauseTime;
-                        handler.postDelayed(updateTimeRunnable, 1000);
-                        item.setIcon(R.drawable.icon_pause);
-                    } else {
-                        isPaused = true;
-                        gridView.setVisibility(View.INVISIBLE);
-                        pauseTime = System.currentTimeMillis();
-                        handler.removeCallbacks(updateTimeRunnable);
-                        item.setIcon(R.drawable.icon_pause);
-                        showPauseDialog();
-                    }
+                    handlePause(item);
                     return true;
                 } else if (itemId == R.id.action_rules) {
                     showRulesVideoDialog();
@@ -242,6 +181,70 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void toggleSound(MenuItem item) {
+        isSoundOn = !isSoundOn;
+
+        if (isSoundOn) {
+            item.setIcon(R.drawable.icon_sound_on);
+        } else {
+            item.setIcon(R.drawable.icon_sound_off);
+        }
+    }
+
+    private void handleUndo() {
+        if (!isUndoUsed && moveCount > 0) {
+            game.undoLastMove();
+            GameGridAdapter gameGridAdapter = (GameGridAdapter) gridView.getAdapter();
+            gameGridAdapter.notifyDataSetChanged();
+            isUndoUsed = true;
+            moveCount--;
+            moveCountTextView.setText(getString(R.string.moves, moveCount));
+
+        } else if (moveCount == 0) {
+            // Show an AlertDialog indicating that no move has been made
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("No Move Made")
+                    .setMessage("You haven't made any moves yet.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            // Show an AlertDialog indicating that undo has already been used
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Undo Used")
+                    .setMessage("Undo has already been used for this level. You cannot use it again.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
+
+    private void handlePause(MenuItem item) {
+            if (isPaused) {
+                isPaused = false;
+                gridView.setVisibility(View.VISIBLE);
+                startTime += System.currentTimeMillis() - pauseTime;
+                handler.postDelayed(updateTimeRunnable, 1000);
+                item.setIcon(R.drawable.icon_pause);
+            } else {
+                isPaused = true;
+                gridView.setVisibility(View.INVISIBLE);
+                pauseTime = System.currentTimeMillis();
+                handler.removeCallbacks(updateTimeRunnable);
+                item.setIcon(R.drawable.icon_pause);
+                showPauseDialog();
+            }
+    }
+
 
     @Override
     protected void onResume() {
@@ -258,7 +261,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        // Release sound resources
         legalMoveSound.release();
         illegalMoveSound.release();
         goalReachedSound.release();
@@ -323,36 +325,43 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage(message)
                 .setPositiveButton("Quit Game", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        AlertDialog.Builder confirmBuilder = new AlertDialog.Builder(MainActivity.this);
-                        confirmBuilder.setTitle("Confirm Quit")
-                                .setMessage("Are you sure you want to quit the game?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface confirmDialog, int confirmId) {
-                                        finish();
-                                    }
-                                })
-                                .setNegativeButton("Restart Level", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface confirmDialog, int confirmId) {
-                                        isUndoUsed = false;
-                                        isGameOver = false;
-                                        recreate();
-                                    }
-                                })
-                                .show();
+                        showConfirmQuitDialog();
                     }
                 })
                 .setNegativeButton("Restart", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // restart level
-                        isUndoUsed = false;
-                        isGameOver = false;
-                        recreate();
+                        restartLevel();
                     }
                 });
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void restartLevel() {
+        isUndoUsed = false;
+        isGameOver = false;
+        recreate();
+    }
+
+    private void showConfirmQuitDialog() {
+        AlertDialog.Builder confirmBuilder = new AlertDialog.Builder(MainActivity.this);
+        confirmBuilder.setTitle("Confirm Quit")
+                .setMessage("Are you sure you want to quit the game?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface confirmDialog, int confirmId) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("Restart Level", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface confirmDialog, int confirmId) {
+                        isUndoUsed = false;
+                        isGameOver = false;
+                        recreate();
+                    }
+                })
+                .show();
     }
 
     private void showInvalidMoveMessage(Message message) {
