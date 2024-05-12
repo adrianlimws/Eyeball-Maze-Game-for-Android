@@ -23,11 +23,10 @@ import java.util.concurrent.TimeUnit;
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Direction;
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Message;
 import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
-import nz.ac.ara.adrianlim.eyeballmaze.models.Level;
 
 public class MainActivity extends AppCompatActivity {
     private Game game;
-    private Level level;
+
     private GridView gridView;
     private TextView levelNameTextView;
     private TextView dialogTextView;
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         // rules dialog textview
         dialogTextView = findViewById(R.id.text_rule_dialog);
-        dialogTextView.setText("Select a tile to make a move");
+        dialogTextView.setText(getString(R.string.select_a_tile_to_make_a_move));
 
         // Define the layout of the game level using the numeric value found in GameGridAdapter.java (line 71)
         int[][] levelLayout = {
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Store the initial goal count
         initialGoalCount = game.getGoalCount();
-        goalCountTextView.setText("Goal: 0/" + initialGoalCount);
+        goalCountTextView.setText(getString(R.string.goal_0) + initialGoalCount);
         // create a GameGridAdapter to populate the GridView with the game data
         GameGridAdapter gameGridAdapter = new GameGridAdapter(this, game);
         // Locate the GridView in layout/activity_main.xml
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Check if tapping the same current eyeball position
                 if (tappedRow == game.getEyeballRow() && tappedCol == game.getEyeballColumn()) {
-                    dialogTextView.setText("You are already here");
+                    dialogTextView.setText(R.string.you_are_already_here);
                     if (isSoundOn) {
                         illegalMoveSound.start();
                     }
@@ -134,15 +133,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                     // Increment the move count per legal move
                     moveCount++;
-                    moveCountTextView.setText("Moves: " + moveCount);
+                    moveCountTextView.setText(getString(R.string.moves, moveCount));
 
                     // notifyDataSetChanged ()
                     // Notifies the attached observers that the underlying data has been changed and any View reflecting the data set should refresh itself.
                     // Refresh the grid
                     gameGridAdapter.notifyDataSetChanged();
-
-                    Log.d("EyeballMaze", "Game Goal count: " + game.getGoalCount());
-                    Log.d("EyeballMaze", "Completed Goal Count: " + game.getCompletedGoalCount());
 
                     int currentGoalCount = game.getGoalCount();
 
@@ -160,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     // Update the goal count TextView
-                    goalCountTextView.setText("Goal: " + game.getCompletedGoalCount() + "/" + initialGoalCount);
+                    goalCountTextView.setText(String.format(Locale.US, "%s%d/%d", getString(R.string.goal), game.getCompletedGoalCount(), initialGoalCount));
                 } else {
                     // Play the illegal move sound
                     if (isSoundOn) {
@@ -194,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                         gameGridAdapter.notifyDataSetChanged();
                         isUndoUsed = true;
                         moveCount--;
-                        moveCountTextView.setText("Moves: " + moveCount);
+                        moveCountTextView.setText(getString(R.string.moves, moveCount));
                         return true;
                     } else if (moveCount == 0) {
                         // Show an AlertDialog indicating that no move has been made
@@ -317,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
     private void showInvalidMoveMessage(Message message) {
         String messageText = "";
         switch (message) {
