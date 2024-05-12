@@ -13,17 +13,14 @@ public class Position {
         this.column = column;
     }
 
-    // Get row value
     public int getRow() {
         return row;
     }
 
-    // Get column value
     public int getColumn() {
         return column;
     }
 
-    // Compare two Position objects are equal
     @Override
     public boolean equals(Object obj) {
         // Check that objects are the same instance
@@ -45,23 +42,4 @@ public class Position {
         // Objects.hash utility to generate a hash code based on row and column
         return Objects.hash(row, column);
     }
-    
-    /* 		HashMap 				        vs 		     	HashSet
-     * key-value pair						|  No key-value mapping		
-     * Each key is unique					|  Each element is unique
-     * Doesn't allow duplicate keys			|  No duplicate elements as it will
-     * BUT it allows duplicate values.  	|  not add it again.
-     * Retrieve with get() or containsKey()	|  Retrieve with contains()
-     * 		None of them have a specific order how the keys/element are stored.	
-     * 					
-     * 		<Explaination to future-self on why you choose HashSet over HashMap>
-     * .Every level has a unique goal position, HashSet prevents duplication of goal position.
-     *  Meaning each goal position is only stored ONCE.
-     * .Only need to store position(one value/element), no need for a key-value mapping function.
-     * 
-     * No clue about performance between the two, that's for another time to research...
-     * 
-     * 	https://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html
-     * 	https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html
-     */
 }

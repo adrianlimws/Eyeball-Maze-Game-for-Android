@@ -245,7 +245,6 @@ public class Level {
         if (hasGoalAt(row, column)) {
             goals.remove(targetPosition);
             completedGoalCount++;
-//            Log.d("EyeballMaze", "Target position is a goal. Goal removed and completedGoalCount incremented.");
         }
 
         // Calculate difference between the target row and the eyeball's current row

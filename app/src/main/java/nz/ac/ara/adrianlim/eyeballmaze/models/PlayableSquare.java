@@ -14,13 +14,11 @@ public class PlayableSquare extends Square {
         this.shape = shape;
     }
 
-    // get the color of the playable square
     @Override
     public Color getColor() {
         return color;
     }
 
-    // get the shape of the playable square
     @Override
     public Shape getShape() {
         return shape;
