@@ -12,7 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -232,8 +234,8 @@ public class MainActivity extends AppCompatActivity {
                         showPauseDialog();
                     }
                     return true;
-                } else if (itemId == R.id.action_load_save) {
-                    // load/save game logic
+                } else if (itemId == R.id.action_rules) {
+                    showRulesVideoDialog();
                     return true;
                 }
                 return false;
@@ -266,6 +268,41 @@ public class MainActivity extends AppCompatActivity {
     private void updateLevelName() {
         String levelName = game.getCurrentLevelName();
         levelNameTextView.setText(levelName);
+    }
+
+    private void showRulesVideoDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_rules_video, null);
+        builder.setView(view);
+
+        VideoView videoView = view.findViewById(R.id.videoView);
+        ImageButton closeButton = view.findViewById(R.id.closeButton);
+
+        // Set the video path
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.rules_video;
+        videoView.setVideoPath(videoPath);
+
+        final AlertDialog dialog = builder.create();
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                videoView.stopPlayback();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                videoView.stopPlayback();
+            }
+        });
+
+        dialog.show();
+
+        // Start playing the video
+        videoView.start();
     }
 
     private void showGameOverDialog(boolean isWin) {
