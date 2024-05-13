@@ -79,7 +79,8 @@ public class Game {
         checkSquarePosition(row, column);
         currentLevel.addSquare(square, row, column);
     }
-    
+
+    // Assessment 2 code
     public Square getSquareAt(int row, int column) {
         isCurrentLevel();
         checkSquarePosition(row, column);
