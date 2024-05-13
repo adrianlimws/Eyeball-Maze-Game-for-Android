@@ -295,7 +295,6 @@ public class MainActivity extends AppCompatActivity {
         videoView.setVideoPath(videoPath);
 
         final AlertDialog dialog = builder.create();
-
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -303,14 +302,12 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 videoView.stopPlayback();
             }
         });
-
         dialog.show();
         videoView.start();
     }
