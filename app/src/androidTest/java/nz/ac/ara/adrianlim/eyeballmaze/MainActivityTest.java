@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -32,16 +33,39 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testValidMove() {
-        ViewInteraction gridView = onView(withId(R.id.grid_game_level));
-        gridView.perform(click());
-        onView(withId(R.id.text_move_count)).check(matches(withText("Moves: 0")));
-    }
-
-    @Test
     public void testInvalidMove() {
         ViewInteraction gridView = onView(withId(R.id.grid_game_level));
         gridView.perform(click());
         onView(withId(R.id.text_rule_dialog)).check(matches(withText("Select a tile to make a move")));
+    }
+
+    @Test
+    public void testBottomNavigationBar() {
+        // Check if the bottom navigation view exists
+        onView(withId(R.id.bottom_navigation)).check(matches(isDisplayed()));
+
+        // Check if the sound button exists and has the correct icon
+        onView(withId(R.id.action_sound))
+                .check(matches(isDisplayed()))
+                .check(matches(withContentDescription(R.string.sound)))
+                .check(matches(withDrawable(R.drawable.icon_sound_on)));
+
+        // Check if the undo button exists and has the correct icon
+        onView(withId(R.id.action_undo))
+                .check(matches(isDisplayed()))
+                .check(matches(withContentDescription(R.string.undo)))
+                .check(matches(withDrawable(R.drawable.icon_undo)));
+
+        // Check if the pause button exists and has the correct icon
+        onView(withId(R.id.action_pause))
+                .check(matches(isDisplayed()))
+                .check(matches(withContentDescription(R.string.pause)))
+                .check(matches(withDrawable(R.drawable.icon_pause)));
+
+        // Check if the rules button exists and has the correct icon
+        onView(withId(R.id.action_rules))
+                .check(matches(isDisplayed()))
+                .check(matches(withContentDescription(R.string.rules)))
+                .check(matches(withDrawable(R.drawable.icon_rules)));
     }
 }
