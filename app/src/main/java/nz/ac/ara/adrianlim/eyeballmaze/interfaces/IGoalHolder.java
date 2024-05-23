@@ -1,11 +1,11 @@
 package nz.ac.ara.adrianlim.eyeballmaze.interfaces;
 
 public interface IGoalHolder {
-	public void addGoal(int row, int column);
+	void addGoal(int row, int column);
 
-	public int getGoalCount();
+	int getGoalCount();
 
-	public boolean hasGoalAt(int targetRow, int targetColumn);
+	boolean hasGoalAt(int targetRow, int targetColumn);
 
-	public int getCompletedGoalCount();
+	int getCompletedGoalCount();
 }

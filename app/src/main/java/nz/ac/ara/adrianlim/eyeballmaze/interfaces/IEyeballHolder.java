@@ -3,11 +3,11 @@ package nz.ac.ara.adrianlim.eyeballmaze.interfaces;
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Direction;
 
 public interface IEyeballHolder {
-	public void addEyeball(int row, int column, Direction direction);
+	void addEyeball(int row, int column, Direction direction);
 
-	public int getEyeballRow();
+	int getEyeballRow();
 
-	public int getEyeballColumn();
+	int getEyeballColumn();
 
-	public Direction getEyeballDirection();
+	Direction getEyeballDirection();
 }

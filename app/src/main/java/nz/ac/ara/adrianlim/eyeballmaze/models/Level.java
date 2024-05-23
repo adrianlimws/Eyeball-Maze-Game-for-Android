@@ -12,15 +12,15 @@ import nz.ac.ara.adrianlim.eyeballmaze.enums.Shape;
 
 public class Level {
 
-	private int height;
-    private int width;
-    private Square[][] squares;
-    private int[][] levelLayout;
-    private Set<Position> goals = new HashSet<>();
+	private final int height;
+    private final int width;
+    private final Square[][] squares;
+    private final int[][] levelLayout;
+    private final Set<Position> goals = new HashSet<>();
 
     private int completedGoalCount;
 
-    private String levelName;
+    private final String levelName;
 
     // Constructor 
     // Created in portoflio version, extending the original Ass2 constructor

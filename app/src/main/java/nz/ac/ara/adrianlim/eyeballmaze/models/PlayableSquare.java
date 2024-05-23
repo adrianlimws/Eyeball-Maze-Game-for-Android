@@ -5,8 +5,8 @@ import nz.ac.ara.adrianlim.eyeballmaze.enums.Shape;
 
 public class PlayableSquare extends Square {
 
-    private Color color;
-    private Shape shape;
+    private final Color color;
+    private final Shape shape;
 
     // Constructor
     public PlayableSquare(Color color, Shape shape) {

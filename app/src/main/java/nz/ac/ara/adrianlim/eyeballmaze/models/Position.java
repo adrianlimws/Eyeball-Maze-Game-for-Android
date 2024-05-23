@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Position {
 
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
 
     // Constructor
     public Position(int row, int column) {

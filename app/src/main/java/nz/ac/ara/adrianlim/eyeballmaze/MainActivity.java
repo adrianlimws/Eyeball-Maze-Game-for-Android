@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isGameOver = false;
     private boolean isPaused = false;
     private long pauseTime = 0;
-    private Handler handler = new Handler();
-    private Runnable updateTimeRunnable = new Runnable() {
+    private final Handler handler = new Handler();
+    private final Runnable updateTimeRunnable = new Runnable() {
         @Override
         public void run() {
             updateElapsedTime();

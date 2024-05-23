@@ -15,10 +15,10 @@ import nz.ac.ara.adrianlim.eyeballmaze.models.Game;
 
 public class GameGridAdapter extends BaseAdapter {
 
-    private Context context;
-    private Game game;
-    private int cellWidth;
-    private int cellHeight;
+    private final Context context;
+    private final Game game;
+    private final int cellWidth;
+    private final int cellHeight;
 
     // Constructor takes context and game instance
     public GameGridAdapter(Context context, Game game) {

@@ -1,13 +1,13 @@
 package nz.ac.ara.adrianlim.eyeballmaze.interfaces;
 
 public interface ILevelHolder {
-	public void addLevel(int height, int width);
+	void addLevel(int height, int width);
 
-	public int getLevelWidth();
+	int getLevelWidth();
 
-	public int getLevelHeight();
+	int getLevelHeight();
 
-	public void setLevel(int levelNumber);
+	void setLevel(int levelNumber);
 
-	public int getLevelCount();
+	int getLevelCount();
 }

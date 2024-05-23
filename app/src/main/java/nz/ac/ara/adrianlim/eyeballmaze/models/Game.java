@@ -9,7 +9,7 @@ import nz.ac.ara.adrianlim.eyeballmaze.enums.Message;
 import nz.ac.ara.adrianlim.eyeballmaze.enums.Shape;
 
 public class Game {
-    private List<Level> levels = new ArrayList<>();
+    private final List<Level> levels = new ArrayList<>();
     private Level currentLevel;
     private Eyeball eyeball;
 
