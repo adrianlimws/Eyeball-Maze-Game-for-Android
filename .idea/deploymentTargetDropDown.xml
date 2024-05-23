@@ -11,6 +11,15 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="testGameOverDialogNoLegalMoves()">
+        <State />
+      </entry>
+      <entry key="testUndoButton()">
+        <State />
+      </entry>
+      <entry key="testValidTileClick()">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
