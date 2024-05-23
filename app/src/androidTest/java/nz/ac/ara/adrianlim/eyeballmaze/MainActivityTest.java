@@ -157,15 +157,12 @@ public class MainActivityTest {
                 .atPosition(23)
                 .perform(click());
 
-
-        // Check if the game over dialog is displayed with the appropriate message
         onView(withText("Game Over"))
                 .check(matches(isDisplayed()));
 
         onView(withText("You lost as there are no legal moves to make."))
                 .check(matches(isDisplayed()));
 
-        // Click on the "Yes" button to quit the game
         onView(withText("Restart"))
                 .perform(click());
 
